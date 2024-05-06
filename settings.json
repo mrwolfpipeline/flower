@@ -1,0 +1,42 @@
+{
+    "settingTaskTaskStatuses": [
+        "Final",
+        "Complete",
+        "On Hold",
+        "Omit",
+        "Pending Review"
+    ],
+    "settingFolderShotStatuses": [
+        "Final",
+        "Complete",
+        "On Hold",
+        "Omit",
+        "Pending Review"
+    ],
+    "settingFolderTaskStatuses": [
+        "Final",
+        "Complete",
+        "On Hold",
+        "Omit",
+        "Pending Review"
+    ],
+    "settingNukeVersions": [
+        "Nuke12",
+        "Nuke13",
+        "Nuke14",
+        "Nuke15"
+    ],
+    "settingMacServerPath": "Sample Path",
+    "settingPCServerPath": "Sample PC Path",
+    "settingPythonLibraries": "TEST PYTHON LIBRARIES PYTHON",
+    "settingNukeFolder": "NUKE FOLDER SETTING NUKE FOLDER SETTING",
+    "settingNukeInit": "NUKE INIT TEMPLATE NUKE INIT TEMPLATE",
+    "settingNukeMenu": "NUKE MENU TEMPLATE NUKE MENU TEMPLATE",
+    "settingMayaFolder": "MAYA MAYA",
+    "settingBlenderFolder": " BLENDER BLENDER",
+    "settingHoudiniFolder": "HOUDINI FOLDER HOUDINI FOLDER",
+    "settingSyntheyesFolder": "SYNTHEYES  FOLDER SYNTHEYES  FOLDER",
+    "settingDefaultTabRadio": "TASKS",
+    "settingDefaultProject": "TestProjectHello",
+    "settingDefaultApplicationRadio": "NUKE"
+}

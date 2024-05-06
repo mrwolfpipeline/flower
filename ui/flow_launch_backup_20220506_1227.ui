@@ -1,0 +1,2410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1354</width>
+    <height>861</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel {
+    color: rgb(50, 50, 50);
+}
+
+QComboBox {
+    color: rgb(50, 50, 50);
+}
+
+QPushButton {
+    color: rgb(50, 50, 50);
+}
+
+QCheckBox {
+    color: rgb(50, 50, 50);
+}
+
+QTabBar {
+    color: rgb(50, 50, 50);
+}
+</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3" rowstretch="1" columnstretch="0" rowminimumheight="0">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="2,0,20,0">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="hlayoutTopBar" stretch="1,1">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="hLayoutTopLeft" stretch="1,1,9">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item>
+          <widget class="QLabel" name="labelAppLogo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>ui/images/application_icon.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelAppTitle">
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>LAUNCHER</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelAppVersion">
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>1.0.1</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame {background-color: rgb(220, 220, 220)};</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QWidget" name="horizontalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>661</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="topMargin">
+            <number>10</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>REFRESH</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>LOGOUT</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelActiveUser_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Admin</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelActiveUser">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Don Quixote</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>35</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>ui/images/artist_icon.png</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>13</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QTabWidget" name="appTabs">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="tabShape">
+        <enum>QTabWidget::Rounded</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <widget class="QWidget" name="tasksTab">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <attribute name="title">
+         <string>TASKS</string>
+        </attribute>
+        <widget class="QWidget" name="verticalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>1301</width>
+           <height>631</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,20">
+          <item>
+           <layout class="QHBoxLayout" name="filterBar">
+            <property name="spacing">
+             <number>15</number>
+            </property>
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="tasksHideTasksFilter">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <bold>true</bold>
+                <kerning>true</kerning>
+               </font>
+              </property>
+              <property name="text">
+               <string>Task Filters</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter1">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusOne</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter2">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusTwo</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter3">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusThree</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter4">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusFour</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter5">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusFive</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tasksFilter6">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>StatusSix</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="tasksListView">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>List View</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="tasksGridView">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Grid View</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonTasksFolder">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <selectedon>ui/images/folder_icon.png</selectedon>
+               </iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="3,6,3">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="labelTasksProjects">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Projects</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="listTaskProjects"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <widget class="QLabel" name="labelTasksTasks">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Tasks</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="listTasksTasks"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QLabel" name="labelTasksContents">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Contents</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="listTasksContents"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="folderTab">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <attribute name="title">
+         <string>FOLDERS</string>
+        </attribute>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>1301</width>
+           <height>631</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>10</number>
+            </property>
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Hide Shots:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter1">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Final</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter2">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Complete</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter3">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Omit</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter4">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter5">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderShotsFilter6">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Maximum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Hide Tasks:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter1">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Final</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter2">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Complete</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter3">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Omit</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter4">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter5">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="folderTasksFilter6">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>On Hold</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonFolder">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <selectedon>ui/images/folder_icon.png</selectedon>
+               </iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Projects</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="projectList"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Episodes</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="episodeList"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Shots</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="shotList"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                </property>
+                <property name="text">
+                 <string>Tasks</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="taskList"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="9">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_5">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Contents</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListWidget" name="contentsList"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="settingsTab">
+        <attribute name="title">
+         <string>SETTINGS</string>
+        </attribute>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>10</y>
+           <width>931</width>
+           <height>621</height>
+          </rect>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>912</width>
+            <height>1116</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_8">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+               </property>
+               <property name="text">
+                <string>USER SETTINGS</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="gridLayout_4">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>10</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>10</number>
+               </property>
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <item row="2" column="1">
+                <widget class="QPushButton" name="buttonDefaultNuke">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>NUKE</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <selectedon>ui/images/nuke_icon.png</selectedon>
+                  </iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_27">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Default Project</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="6">
+                <widget class="QPushButton" name="buttonDefaultTab">
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labelFolderTaskStatuses_2">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Default Application</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="3">
+                <widget class="QPushButton" name="buttonDefaultBlender">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>BLENDER</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <selectedon>ui/images/blender_icon.png</selectedon>
+                  </iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="4">
+                <widget class="QPushButton" name="buttonDefaultHoudini">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>HOUDINI</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <selectedon>ui/images/houdini.png</selectedon>
+                  </iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="6">
+                <widget class="QPushButton" name="buttonDefaultProject">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="buttonDefaultMaya">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>MAYA</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <selectedon>ui/images/maya_icon.png</selectedon>
+                  </iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="6">
+                <widget class="QPushButton" name="buttonDefaultApplication">
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_18">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Default Tab</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="5">
+                <widget class="QPushButton" name="buttonDefaultSyntheyes">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>SYNTHEYES</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <selectedon>ui/images/syntheyes_icon.png</selectedon>
+                  </iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1" colspan="5">
+                <widget class="QLineEdit" name="settingDefaultProject">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="buttonDefaultTasks">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>TASKS</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="buttonDefaultFolders">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>FOLDERS</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+               </property>
+               <property name="text">
+                <string>FLOW LAUNCH SETTINGS</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="gridLayout_2">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>10</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>10</number>
+               </property>
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="settingFolderTaskStatuses">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labelFolderTaskStatuses">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Folder View Task Statuses to Filter</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_16">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Task View Task Statuses to Filter</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="settingTaskTaskStatuses">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_17">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Folder View Shot Statuses to Filter</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="settingFolderShotStatuses">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="buttonTaskTaskStatuses">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="buttonFolderShotStatuses">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="buttonFolderTaskStatuses">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_13">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel {
+    background-color: rgb(220, 220, 220);
+    border: 1px solid rgb(100, 100,100);
+}</string>
+               </property>
+               <property name="text">
+                <string>SYSTEM SETTINGS</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="gridLayout">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>10</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>10</number>
+               </property>
+               <property name="horizontalSpacing">
+                <number>10</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>15</number>
+               </property>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="settingNukeFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_19">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Blender Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="10" column="1">
+                <widget class="QLineEdit" name="settingSyntheyesFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="buttonPCServerPath">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QPushButton" name="buttonNukeInit">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="buttonMayaFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="10" column="2">
+                <widget class="QPushButton" name="buttonSyntheyesFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QLineEdit" name="settingBlenderFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="settingMacServerPath">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="settingPythonLibraries">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="buttonMacServerPath">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="2">
+                <widget class="QPushButton" name="buttonHoudiniFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="settingNukeMenu">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="2">
+                <widget class="QPushButton" name="buttonBlenderFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="10" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Syntheyes Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
+                <widget class="QPushButton" name="buttonNukeMenu">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Server Path PC</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="settingNukeInit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_23">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Menu Template</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Init Template</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLineEdit" name="settingMayaFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="settingPCServerPath">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2">
+                <widget class="QPushButton" name="buttonNukeFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QLineEdit" name="settingHoudiniFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0">
+                <widget class="QLabel" name="label_20">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Houdini Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_24">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Server Path MacOS / Linux</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_26">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Python Libraries</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="buttonPythonLibraries">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Maya Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_28">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Versions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="settingNukeVersions">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QPushButton" name="buttonNukeVersions">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_13"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="hBottomBar" stretch="3,3,3,3,3,4,0,3,3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="buttonNuke">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>NUKE</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <selectedon>ui/images/nuke_icon.png</selectedon>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonMaya">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>MAYA</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <selectedon>ui/images/maya_icon.png</selectedon>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonBlender">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>BLENDER</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <selectedon>ui/images/blender_icon.png</selectedon>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonHoudini">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>HOUDINI</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <selectedon>ui/images/houdini.png</selectedon>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonSyntheyes">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>SYNTHEYES</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <selectedon>ui/images/syntheyes_icon.png</selectedon>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboAppVersion">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QListView{
+    color: rgb(110,209,255);;
+}    </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="hLayoutSpacer">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>20</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>30</number>
+         </property>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonLoadFile">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>LOAD FILE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonCreateFile">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>CREATE FILE</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
