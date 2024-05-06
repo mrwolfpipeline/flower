@@ -1,5 +1,5 @@
 import json
-from PySide2.QtWidgets import QApplication, QWidget, QButtonGroup
+from PySide2.QtWidgets import QApplication, QWidget, QButtonGroup, QPushButton
 from auto_load_ui import autoloadUi  # Import the autoloadUi function
 from flow_launch_stylesheet import radio_button_style
 
@@ -22,6 +22,11 @@ class FlowLaunch(QWidget):
         self.default_button_launch_list = [self.buttonDefaultNuke, self.buttonDefaultMaya, self.buttonDefaultBlender,
                                            self.buttonDefaultHoudini, self.buttonDefaultSyntheyes]
         self.default_tab_button_list = [self.buttonDefaultTasks, self.buttonDefaultFolders]
+
+        # Filter button groups for button creation on tasks and folders views
+        self.tasks_filter_button_group = []
+        self.folders_shots_filter_button_group = []
+        self.folders_tasks_filter_button_group = []
 
         # Create a button group for radio button functionality
         self.launch_button_group = QButtonGroup()
@@ -52,7 +57,15 @@ class FlowLaunch(QWidget):
                     line_edit.setReadOnly(True)
                     line_edit.setStyleSheet("QLineEdit[readOnly=\"true\"] { background-color: #f0f0f0; }")
 
-        # Setup radio button functionality for the button group
+            # Creates the filter button groups for the tasks view and the folders view
+            self.create_filter_button_group(data["settingTaskTaskStatuses"], self.tasksFilterBar, self.tasks_filter_button_group)
+            self.create_filter_button_group(data["settingFolderShotStatuses"], self.foldersShotsFilterBar,
+                                            self.folders_shots_filter_button_group)
+            self.create_filter_button_group(data["settingFolderTaskStatuses"], self.foldersTasksFilterBar,
+                                            self.folders_tasks_filter_button_group)
+
+
+        # # Setup radio button functionality for the button group
         self.setup_radio_button_group(self.launch_button_group, self.launch_button_list, setting=None,
                                       default_group=False, default_button=None, default_variable=None)
         self.setup_radio_button_group(self.default_launch_button_group, self.default_button_launch_list,
@@ -67,18 +80,6 @@ class FlowLaunch(QWidget):
         self.settingTaskTaskStatusesList = self.settingTaskTaskStatuses.text().split(', ')
         self.settingFolderShotStatusesList = self.settingFolderShotStatuses.text().split(', ')
         self.settingFolderTaskStatusesList = self.settingFolderTaskStatuses.text().split(', ')
-
-        # Assuming tasksFilterOne, tasksFilterTwo, etc., are already created in Qt Designer
-        self.task_status_widgets = [getattr(self, f"tasksFilter{i + 1}") for i in
-                                    range(len(self.settingTaskTaskStatusesList))]
-        self.folder_shot_status_widgets = [getattr(self, f"folderShotsFilter{i + 1}") for i in
-                                           range(len(self.settingFolderShotStatusesList))]
-        self.folder_task_status_widgets = [getattr(self, f"folderTasksFilter{i + 1}") for i in
-                                           range(len(self.settingFolderTaskStatusesList))]
-
-        self.update_labels(self.task_status_widgets, self.settingTaskTaskStatusesList)
-        self.update_labels(self.folder_shot_status_widgets, self.settingFolderShotStatusesList)
-        self.update_labels(self.folder_task_status_widgets, self.settingFolderTaskStatusesList)
 
         # Define a dictionary mapping buttons to their corresponding settings
         button_setting_dict = {
@@ -131,18 +132,37 @@ class FlowLaunch(QWidget):
                 self.appTabs.setCurrentIndex(i)
                 break
 
+    def create_filter_button_group(self, status_list, filter_bar_layout, filter_button_group):
+        # Iterate over the list of task statuses and create buttons
+        for status in status_list:
+            button = QPushButton(status, self)
+            button.setStyleSheet(radio_button_style)
+            button.setCheckable(True)
+            button.setMinimumWidth(80)
+            button.setMinimumHeight(30)
+            filter_button_group.append(button)
+            button.setChecked(True)
+            button.clicked.connect(lambda: self.filter_button_click(filter_button_group))
+            filter_bar_layout.addWidget(button)
+
+    def filter_button_click(self, button_group):
+        # Print the status of all buttons in the group
+        status = [f"{btn.text()} is {'checked' if btn.isChecked() else 'unchecked'}" for btn in button_group]
+        print(", ".join(status))
+
     def closeEvent(self, event):
         # Call your function here
         self.save_settings_on_exit()
 
     def save_settings_on_exit(self):
         # TODO: Add functionality for saving project, shot last on etc.
-        current_launch_application = self.launch_button_group.checkedButton().text()
-        current_index = self.appTabs.currentIndex()
-        current_tab_name = self.appTabs.tabText(current_index)
-
-        self.update_json("settingDefaultApplicationRadio", current_launch_application)
-        self.update_json("settingDefaultTabRadio", current_tab_name)
+        print("TO DO SAVE SETTINGS")
+        # current_launch_application = self.launch_button_group.checkedButton().text()
+        # current_index = self.appTabs.currentIndex()
+        # current_tab_name = self.appTabs.tabText(current_index)
+        #
+        # self.update_json("settingDefaultApplicationRadio", current_launch_application)
+        # self.update_json("settingDefaultTabRadio", current_tab_name)
 
 
     def connect_settings_buttons_and_line_edits(self, button_setting_dict):

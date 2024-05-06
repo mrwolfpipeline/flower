@@ -352,7 +352,7 @@ QTabBar {
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="iconSize">
         <size>
@@ -380,7 +380,7 @@ QTabBar {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,20">
           <item>
-           <layout class="QHBoxLayout" name="filterBar">
+           <layout class="QHBoxLayout" name="tabTopRow">
             <property name="spacing">
              <number>15</number>
             </property>
@@ -388,16 +388,22 @@ QTabBar {
              <number>5</number>
             </property>
             <property name="topMargin">
-             <number>10</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>5</number>
             </property>
             <property name="bottomMargin">
-             <number>10</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QLabel" name="tasksHideTasksFilter">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
@@ -411,94 +417,20 @@ QTabBar {
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="tasksFilter1">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
+             <layout class="QHBoxLayout" name="tasksFilterBar">
+              <property name="spacing">
+               <number>15</number>
               </property>
-              <property name="text">
-               <string>StatusOne</string>
+              <property name="topMargin">
+               <number>5</number>
               </property>
-              <property name="checked">
-               <bool>true</bool>
+              <property name="rightMargin">
+               <number>0</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="tasksFilter2">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
+              <property name="bottomMargin">
+               <number>5</number>
               </property>
-              <property name="text">
-               <string>StatusTwo</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="tasksFilter3">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>StatusThree</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="tasksFilter4">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>StatusFour</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="tasksFilter5">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>StatusFive</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="tasksFilter6">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>StatusSix</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
+             </layout>
             </item>
             <item>
              <spacer name="horizontalSpacer_2">
@@ -540,7 +472,7 @@ QTabBar {
             <item>
              <widget class="QPushButton" name="buttonTasksFolder">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -778,91 +710,14 @@ QTabBar {
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="folderShotsFilter1">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
+             <layout class="QHBoxLayout" name="foldersShotsFilterBar">
+              <property name="leftMargin">
+               <number>5</number>
               </property>
-              <property name="text">
-               <string>Final</string>
+              <property name="rightMargin">
+               <number>5</number>
               </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderShotsFilter2">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Complete</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderShotsFilter3">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Omit</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderShotsFilter4">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderShotsFilter5">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderShotsFilter6">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
+             </layout>
             </item>
             <item>
              <spacer name="horizontalSpacer">
@@ -894,91 +749,14 @@ QTabBar {
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="folderTasksFilter1">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
+             <layout class="QHBoxLayout" name="foldersTasksFilterBar">
+              <property name="leftMargin">
+               <number>5</number>
               </property>
-              <property name="text">
-               <string>Final</string>
+              <property name="rightMargin">
+               <number>5</number>
               </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderTasksFilter2">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Complete</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderTasksFilter3">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Omit</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderTasksFilter4">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderTasksFilter5">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="folderTasksFilter6">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>On Hold</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
+             </layout>
             </item>
             <item>
              <spacer name="horizontalSpacer_3">

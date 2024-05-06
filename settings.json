@@ -4,21 +4,21 @@
         "Complete",
         "On Hold",
         "Omit",
-        "Pending Review"
+        "Pending"
     ],
     "settingFolderShotStatuses": [
         "Final",
         "Complete",
         "On Hold",
         "Omit",
-        "Pending Review"
+        "Pending"
     ],
     "settingFolderTaskStatuses": [
         "Final",
         "Complete",
         "On Hold",
         "Omit",
-        "Pending Review"
+        "Pending"
     ],
     "settingNukeVersions": [
         "Nuke12",
