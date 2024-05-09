@@ -1,7 +1,18 @@
 import json
-from PySide2.QtWidgets import QApplication, QWidget, QButtonGroup, QPushButton
+
+from PySide2.QtGui import QPixmap, QIcon
+from PySide2.QtWidgets import QApplication, QWidget, QButtonGroup, QPushButton, QTableWidgetItem, QLabel
 from auto_load_ui import autoloadUi  # Import the autoloadUi function
 from flow_launch_stylesheet import radio_button_style
+import util_flow
+import util_globals as FL
+import requests
+
+
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+
 
 settings_json = 'settings.json'
 
@@ -9,11 +20,26 @@ class FlowLaunch(QWidget):
     def __init__(self):
         super().__init__()
 
-        # Set Window Title
-        self.setWindowTitle('Flow Launcher')
-
         # Load the UI file using autoloadUi
         self.ui = autoloadUi(self, [FlowLaunch])  # Replace MyCustomWidget with your custom widget class if needed
+
+        # Authenticate User
+        FL.sg = util_flow.get_sg_connection()
+        self.user_object = util_flow.get_sg_user_object()
+        self.user_name = str(self.user_object)
+        self.user_details = util_flow.get_user_details(self.user_name)
+        self.user_tasks = util_flow.get_user_tasks(self.user_name)
+        # self.user_projects = util_flow.get_unique_project_names(self.user_tasks)
+
+        # print(self.user_projects)
+
+        print('MW LAUNCHER::: SG USER: ' + self.user_name)
+
+        self.labelActiveUser.setText(self.user_name)
+        self.labelActiveUserPermissions.setText(FL.user_permission_group)
+
+        # Set Window Title
+        self.setWindowTitle('Flow Launcher')
 
         # Create a list of buttons to group together based on their names in the UI file.
         # This is to create a radio button group
@@ -132,6 +158,96 @@ class FlowLaunch(QWidget):
                 self.appTabs.setCurrentIndex(i)
                 break
 
+        self.create_list_item()
+
+    def on_row_clicked(self, row, table_widget):
+        # Get the column index of the column named "id"
+        column_index = -1
+        for column in range(table_widget.columnCount()):
+            if table_widget.horizontalHeaderItem(column).text() == "id":
+                column_index = column
+                break
+
+        if column_index == -1:
+            print("Column 'id' not found.")
+            return
+
+        # Get the project ID from the clicked row and column
+        project_id_item = table_widget.item(row, column_index)
+        if project_id_item:
+            project_id = project_id_item.data(Qt.DisplayRole)
+            print("Project ID:", project_id)
+
+    def create_list_item(self):
+        # Remove the first row from the QT Designer file using for testing
+        self.tableTaskProjects.removeRow(0)
+        self.tableTaskProjects.setShowGrid(False)
+        self.tableTaskProjects.setColumnHidden(2, True)
+        self.tableTaskProjects.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tableTaskProjects.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableTaskProjects.setMinimumHeight(300)
+        self.tableTaskProjects.setMinimumWidth(350)
+        self.tableTaskProjects.verticalHeader().setVisible(False)
+        task_header = self.tableTaskProjects.horizontalHeader()
+        task_header.setVisible(False)
+
+        # Set the resize mode of the second column to stretch
+        self.tableTaskProjects.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+
+        self.tableTaskProjects.verticalHeader().setDefaultSectionSize(80)
+        self.tableTaskProjects.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableTaskProjects.setStyleSheet("QTableWidget::item { padding: 5px; }")
+
+        # Connect the cellClicked signal to the custom slot
+        self.tableTaskProjects.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTaskProjects))
+
+        row = 0
+        for project in self.user_tasks:
+            project_name = project['project.Project.name']
+            project_image = project['project.Project.image']
+            project_id = project['project.Project.id']
+
+            # Download the image
+            response = requests.get(project_image)
+            image_data = response.content
+
+            # Create a QPixmap from the image data
+            pixmap = QPixmap()
+            pixmap.loadFromData(image_data)
+
+            # Scale the pixmap to fit within 80x80 while preserving aspect ratio
+            scaled_pixmap = pixmap.scaled(QSize(100, 60))
+
+            # Create a QLabel to display the icon
+            icon_label = QLabel()
+            icon_label.setPixmap(scaled_pixmap)
+            icon_label.setAlignment(Qt.AlignCenter)  # Center the icon within the QLabel
+
+            # Insert a new row and set the items
+            self.tableTaskProjects.insertRow(row)
+            self.tableTaskProjects.setCellWidget(row, 0, icon_label)
+
+            # Create a QTableWidgetItem for project name
+            project_name_item = QTableWidgetItem(project_name)
+
+            # Set left margin padding for the project name using style sheet
+            project_name_item.setTextAlignment(
+                Qt.AlignVCenter | Qt.AlignLeft)  # Horizontally to the left, vertically centered
+            font = QFont()
+            font.setPointSize(11)
+            project_name_item.setFont(font)
+
+            self.tableTaskProjects.setItem(row, 1, project_name_item)
+
+            # Create a QTableWidgetItem for project id (invisible column)
+            project_id_item = QTableWidgetItem()
+            project_id_item.setData(Qt.DisplayRole, project_id)
+            project_id_item.setFlags(Qt.ItemIsEnabled)  # Disable editing and selection
+            self.tableTaskProjects.setItem(row, 2, project_id_item)
+
+            # Increment row counter
+            row += 1
+
     def create_filter_button_group(self, status_list, filter_bar_layout, filter_button_group):
         # Iterate over the list of task statuses and create buttons
         for status in status_list:
@@ -164,7 +280,6 @@ class FlowLaunch(QWidget):
         # self.update_json("settingDefaultApplicationRadio", current_launch_application)
         # self.update_json("settingDefaultTabRadio", current_tab_name)
 
-
     def connect_settings_buttons_and_line_edits(self, button_setting_dict):
         for button, setting in button_setting_dict.items():
             button.clicked.connect(lambda b=button, s=setting: self.toggle_edit_mode(b, s))
@@ -177,7 +292,7 @@ class FlowLaunch(QWidget):
                 btn.setChecked(False)
 
         # Handle default radio button click if it's a default group
-        if default_group and button.text() != default_button:
+        if default_group and button.text() != default_variable:
             default_button.setEnabled(True)
             default_button.clicked.connect(lambda: self.update_json(setting, button.text(), button=default_button, default_variable=default_variable))
         elif default_group:
@@ -237,15 +352,6 @@ class FlowLaunch(QWidget):
             button.setEnabled(False)
 
         default_variable = value
-
-    def update_labels(self, widgets, statuses):
-        # Update text of existing labels or remove if status is None
-        for label, status in zip(widgets, statuses):
-            if status is not None and status != "Null" and status != "null" and status != "None" and status != "none":
-                label.setText(status)
-                label.setVisible(True)  # Ensure label is visible
-            else:
-                label.setVisible(False)  # Hide label if status is None
 
 
 if __name__ == "__main__":

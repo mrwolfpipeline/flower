@@ -5,4 +5,10 @@ class FL:
 	SCRIPT_KEY = 'fXoqubneyadxt4ml%dmiszjtk'
 
 	sg = None
-	sg_user_login = None
+
+	user_object = None
+	user_name = None
+	user_id = None
+	user_login = None
+	user_email = None
+	user_permission_group = None

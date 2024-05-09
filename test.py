@@ -1,51 +1,31 @@
-from PySide2.QtWidgets import QApplication, QComboBox, QStyledItemDelegate, QListView, QCheckBox
+import sys
+from PySide2.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout
+from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Qt
+import requests
 
+class ImageWindow(QWidget):
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
+        self.setWindowTitle("Image Viewer")
+        self.setLayout(QVBoxLayout())
+        self.image_label = QLabel()
+        self.layout().addWidget(self.image_label)
+        self.load_image()
 
-class CheckableComboBox(QComboBox):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setView(QListView())
-
-        self._delegate = CheckableComboBoxView(self)
-        self.setItemDelegate(self._delegate)
-
-    def addItem(self, text):
-        super().addItem(text)
-        index = self.model().index(self.count() - 1, 0)
-        self.model().setData(index, Qt.Unchecked, Qt.CheckStateRole)
-
-
-class CheckableComboBoxView(QStyledItemDelegate):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-    def createEditor(self, parent, option, index):
-        checkbox = QCheckBox(parent)
-        checkbox.clicked.connect(lambda: self.toggle_checked_state(checkbox, index))
-        return checkbox
-
-    def setEditorData(self, editor, index):
-        value = index.data(Qt.CheckStateRole)
-        editor.setChecked(value == Qt.Checked)
-
-    def setModelData(self, editor, model, index):
-        model.setData(index, Qt.Checked if editor.isChecked() else Qt.Unchecked, Qt.CheckStateRole)
-
-    def toggle_checked_state(self, checkbox, index):
-        model = index.model()
-        state = Qt.Checked if checkbox.isChecked() else Qt.Unchecked
-        model.setData(index, state, Qt.CheckStateRole)
-
+    def load_image(self):
+        try:
+            response = requests.get(self.url)
+            image = QPixmap()
+            image.loadFromData(response.content)
+            self.image_label.setPixmap(image)
+        except Exception as e:
+            print("Error loading image:", e)
 
 if __name__ == "__main__":
-    import sys
-
     app = QApplication(sys.argv)
-    combo = CheckableComboBox()
-    combo.addItem("Item 1")
-    combo.addItem("Item 2")
-    combo.addItem("Item 3")
-    combo.addItem("Item 4")
-    combo.show()
+    url = "https://www.google.com/logos/doodles/2024/us-teacher-appreciation-week-2024-begins-6753651837110457.2-l.webp"
+    image_window = ImageWindow(url)
+    image_window.show()
     sys.exit(app.exec_())
