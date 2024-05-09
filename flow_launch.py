@@ -196,7 +196,14 @@ class FlowLaunch(QWidget):
 
         self.tableTaskProjects.verticalHeader().setDefaultSectionSize(80)
         self.tableTaskProjects.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.tableTaskProjects.setStyleSheet("QTableWidget::item { padding: 5px; }")
+        self.tableTaskProjects.setStyleSheet("""
+            QTableWidget::item { 
+                padding: 5px;  /* padding for unselected items */
+            }
+            QTableWidget::item:selected { 
+                padding: 5px;  /* padding for selected items */
+            }
+        """)
 
         # Connect the cellClicked signal to the custom slot
         self.tableTaskProjects.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTaskProjects))
@@ -234,7 +241,7 @@ class FlowLaunch(QWidget):
             project_name_item.setTextAlignment(
                 Qt.AlignVCenter | Qt.AlignLeft)  # Horizontally to the left, vertically centered
             font = QFont()
-            font.setPointSize(11)
+            font.setPointSize(9)
             project_name_item.setFont(font)
 
             self.tableTaskProjects.setItem(row, 1, project_name_item)
