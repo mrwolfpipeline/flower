@@ -387,7 +387,7 @@ QTabBar {
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="iconSize">
         <size>
@@ -447,7 +447,7 @@ QTabBar {
                </font>
               </property>
               <property name="text">
-               <string>Task Filters</string>
+               <string>Task Status Filter</string>
               </property>
              </widget>
             </item>
@@ -465,6 +465,9 @@ QTabBar {
               <property name="bottomMargin">
                <number>5</number>
               </property>
+              <item>
+               <widget class="checkablecombobox" name="taskFilterComboBox"/>
+              </item>
              </layout>
             </item>
             <item>
@@ -479,30 +482,6 @@ QTabBar {
                </size>
               </property>
              </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="tasksListView">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>List View</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="tasksGridView">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Grid View</string>
-              </property>
-             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="buttonTasksFolder">
@@ -619,12 +598,12 @@ QTabBar {
                 </item>
                 <item row="0" column="1">
                  <property name="text">
-                  <string>Test</string>
+                  <string>sample_project</string>
                  </property>
                 </item>
                 <item row="0" column="2">
                  <property name="text">
-                  <string>1</string>
+                  <string>sample_id</string>
                  </property>
                 </item>
                </widget>
@@ -662,7 +641,128 @@ QTabBar {
                </widget>
               </item>
               <item>
-               <widget class="QListWidget" name="listTasksTasks"/>
+               <widget class="QTableWidget" name="tableTasks">
+                <row>
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </row>
+                <column>
+                 <property name="text">
+                  <string>Thumbnail</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Shotname</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Task Name</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Task Type</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Episode</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Due Date</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Bid Hours</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Hours Logged</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Logged vs. Bid</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Last Opened</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>id</string>
+                 </property>
+                </column>
+                <item row="0" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <activeon>ui/images/application_icon.png</activeon>
+                  </iconset>
+                 </property>
+                </item>
+                <item row="0" column="1">
+                 <property name="text">
+                  <string>sample_shot_name</string>
+                 </property>
+                </item>
+                <item row="0" column="2">
+                 <property name="text">
+                  <string>sample_task_name</string>
+                 </property>
+                </item>
+                <item row="0" column="3">
+                 <property name="text">
+                  <string>sample_task_type</string>
+                 </property>
+                </item>
+                <item row="0" column="4">
+                 <property name="text">
+                  <string>sample_episode</string>
+                 </property>
+                </item>
+                <item row="0" column="5">
+                 <property name="text">
+                  <string>sample_due_date</string>
+                 </property>
+                </item>
+                <item row="0" column="6">
+                 <property name="text">
+                  <string>sample_bid_hours</string>
+                 </property>
+                </item>
+                <item row="0" column="7">
+                 <property name="text">
+                  <string>sample_hours_logged</string>
+                 </property>
+                </item>
+                <item row="0" column="8">
+                 <property name="text">
+                  <string>sample_logged_vs_bid</string>
+                 </property>
+                </item>
+                <item row="0" column="9">
+                 <property name="text">
+                  <string>sample_last_worked</string>
+                 </property>
+                </item>
+                <item row="0" column="10">
+                 <property name="text">
+                  <string>sample_id</string>
+                 </property>
+                </item>
+               </widget>
               </item>
              </layout>
             </item>
@@ -790,7 +890,7 @@ QTabBar {
                </font>
               </property>
               <property name="text">
-               <string>Hide Shots:</string>
+               <string>Shot Status Filter</string>
               </property>
              </widget>
             </item>
@@ -802,23 +902,10 @@ QTabBar {
               <property name="rightMargin">
                <number>5</number>
               </property>
+              <item>
+               <widget class="checkablecombobox" name="foldersShotStatusFilter"/>
+              </item>
              </layout>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Maximum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
             <item>
              <widget class="QLabel" name="label_7">
@@ -829,7 +916,7 @@ QTabBar {
                </font>
               </property>
               <property name="text">
-               <string>Hide Tasks:</string>
+               <string>Task Status Filter</string>
               </property>
              </widget>
             </item>
@@ -841,6 +928,9 @@ QTabBar {
               <property name="rightMargin">
                <number>5</number>
               </property>
+              <item>
+               <widget class="checkablecombobox" name="foldersTaskStatusFilter"/>
+              </item>
              </layout>
             </item>
             <item>
@@ -2268,6 +2358,13 @@ QTabBar {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>checkablecombobox</class>
+   <extends>QComboBox</extends>
+   <header location="global">ui_checkable_combobox</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

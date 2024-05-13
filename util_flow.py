@@ -76,23 +76,27 @@ def get_user_tasks(user):
                      'project.Project.id',
                      'entity.Shot.sg_sequence.Sequence.episode',
                      'project.Project.sg_mw_shot_regex',
-                     'project.Project.image']
+                     'project.Project.image',
+                     'est_in_mins',
+                     'time_logs_sum',
+                     'due_date',
+                     'sg_last_opened_in_launcher']
 
     tasks = sg.find('Task', filters, result_format, include_archived_projects=False)
 
-    print(tasks[0].get('entity.Shot.image'))
-    print(tasks[0].get('project.Project.image'))
-
-    sample_list = []
-    i = 0
-    for task in tasks:
-        i += 1
-        if i <= 6:
-            print(tasks[i])
-            sample_list.append(tasks[i])
-
-    return sample_list
-    # return tasks
+    # print(tasks[0].get('entity.Shot.image'))
+    # print(tasks[0].get('project.Project.image'))
+    #
+    # sample_list = []
+    # i = 0
+    # for task in tasks:
+    #     i += 1
+    #     if i <= 6:
+    #         print(tasks[i])
+    #         sample_list.append(tasks[i])
+    #
+    # return sample_list
+    return tasks
 
 # Used to extract from all user tasks the unique and sorted project names and project images
 def get_project_names_and_images(tasks):

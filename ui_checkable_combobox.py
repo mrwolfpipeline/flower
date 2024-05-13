@@ -3,7 +3,9 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class CheckableComboBox(QComboBox):
+class checkablecombobox(QComboBox):
+    selectionChanged = Signal(str, list, list)
+
     # Subclass Delegate to increase item height
     class Delegate(QStyledItemDelegate):
         def sizeHint(self, option, index):
@@ -14,6 +16,8 @@ class CheckableComboBox(QComboBox):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.filter_type = None
+
         # Make the combo editable to set a custom text, but readonly
         self.setEditable(True)
         self.lineEdit().setReadOnly(True)
@@ -23,11 +27,11 @@ class CheckableComboBox(QComboBox):
         self.lineEdit().setPalette(palette)
 
         # Use custom delegate
-        self.setItemDelegate(CheckableComboBox.Delegate())
+        self.setItemDelegate(checkablecombobox.Delegate())
 
         # Update the text when an item is toggled
         self.model().dataChanged.connect(self.updateText)
-        self.model().dataChanged.connect(self.printSelected)
+        self.model().dataChanged.connect(self.getSelected)
 
         # Hide and show popup when clicking the line edit
         self.lineEdit().installEventFilter(self)
@@ -35,6 +39,22 @@ class CheckableComboBox(QComboBox):
 
         # Prevent popup from closing when clicking on an item
         self.view().viewport().installEventFilter(self)
+
+        # Flag to indicate initialization complete
+        self.initialized = False
+
+    def getSelected(self, filter_type):
+        if self.initialized:
+            selected = self.currentData()
+            deselected = [self.model().item(i).data() for i in range(self.model().rowCount()) if
+                          self.model().item(i).checkState() == Qt.Unchecked]
+
+            self.selectionChanged.emit(self.filter_type, selected, deselected)
+
+    def showEvent(self, event):
+        # Signal initialization complete after the widget is shown
+        self.initialized = True
+        super().showEvent(event)
 
     def resizeEvent(self, event):
         # Recompute text to elide as needed
@@ -120,13 +140,6 @@ class CheckableComboBox(QComboBox):
                 res.append(self.model().item(i).data())
         return res
 
-    def printSelected(self):
-        selected = self.currentData()
-        deselected = [self.model().item(i).data() for i in range(self.model().rowCount()) if
-                      self.model().item(i).checkState() == Qt.Unchecked]
-        print("Selected:", selected)
-        print("Deselected:", deselected)
-
 
 if __name__ == '__main__':
     import sys
@@ -137,7 +150,7 @@ if __name__ == '__main__':
     layout = QVBoxLayout(widget)
 
     # Create a CheckableComboBox
-    combo = CheckableComboBox()
+    combo = checkablecombobox()
 
     # Add items to the combo box
     combo.addItems(["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"])
