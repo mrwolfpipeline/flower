@@ -5,7 +5,7 @@ import util_globals as FL
 def get_sg_connection():
     """
     Create a Shotgun connection via the user object
-    This will initialize MWB.sg and MWB.sg_username Globals as well.
+    This will initialize globals as well.
     Use at the start of a hook script.
     """
     Shotgun.NO_SSL_VALIDATION = True
@@ -98,16 +98,17 @@ def get_user_tasks(user):
     # return sample_list
     return tasks
 
-# Used to extract from all user tasks the unique and sorted project names and project images
-def get_project_names_and_images(tasks):
-    unique_project_names = set()
-    for task in tasks:
-        project_name = task.get('project.Project.name')
-        if project_name:
-            unique_project_names.add(project_name)
-    return sorted(list(unique_project_names))
+def get_status_list(entity_type):
+    try:
+        # Create a Shotgun API connection
+        sg = FL.sg
 
+        # Retrieve the schema for the specified entity type
+        schema = sg.schema_field_read(entity_type)
 
-def get_unique_project_tasks(project, tasks):
-    pass
-
+        # Get the list of possible statuses from the schema
+        statuses = schema[entity_type]['properties']['sg_status_list']['properties']['valid_values']['value']
+        return statuses
+    except KeyError:
+        print("Error: Entity type '{}' not found in the Shotgun schema.".format(entity_type))
+        return []

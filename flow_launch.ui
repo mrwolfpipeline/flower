@@ -240,7 +240,7 @@ QTabBar {
               </font>
              </property>
              <property name="text">
-              <string>LOGOUT</string>
+              <string>CHANGE USER</string>
              </property>
             </widget>
            </item>
@@ -387,7 +387,7 @@ QTabBar {
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="iconSize">
         <size>
@@ -1291,7 +1291,7 @@ QTabBar {
             <x>0</x>
             <y>0</y>
             <width>912</width>
-            <height>1116</height>
+            <height>1383</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1783,7 +1783,7 @@ QTabBar {
               </widget>
              </item>
              <item>
-              <layout class="QGridLayout" name="gridLayout">
+              <layout class="QGridLayout" name="systemSettingsGrid">
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -1802,17 +1802,7 @@ QTabBar {
                <property name="verticalSpacing">
                 <number>15</number>
                </property>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="settingNukeFolder">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0">
+               <item row="10" column="0">
                 <widget class="QLabel" name="label_19">
                  <property name="font">
                   <font>
@@ -1824,7 +1814,199 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="10" column="1">
+               <item row="2" column="2">
+                <widget class="QPushButton" name="buttonPCServerPath">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
+                <widget class="QPushButton" name="buttonNukeInit">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="2">
+                <widget class="QPushButton" name="buttonMayaFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="2">
+                <widget class="QPushButton" name="buttonSyntheyesFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="settingMacServerPath">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="12" column="2">
+                <widget class="QPushButton" name="buttonHoudiniFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="2">
+                <widget class="QPushButton" name="buttonMayaVersions">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Server Path PC</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_23">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Menu Template</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nuke Init Template</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="11" column="0">
+                <widget class="QLabel" name="label_29">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Blender Versions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Houdini Versions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="settingPCServerPath">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QPushButton" name="buttonNukeFolder">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="2">
+                <widget class="QPushButton" name="buttonSyntheyesVersions">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="0">
+                <widget class="QLabel" name="label_31">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Syntheyes Versions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="12" column="0">
+                <widget class="QLabel" name="label_20">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Houdini Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QLineEdit" name="settingMayaVersions">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Maya Folder</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="settingNukeFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="1">
                 <widget class="QLineEdit" name="settingSyntheyesFolder">
                  <property name="minimumSize">
                   <size>
@@ -1837,35 +2019,36 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QPushButton" name="buttonPCServerPath">
+               <item row="9" column="0">
+                <widget class="QLabel" name="label_11">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Maya Versions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="11" column="1">
+                <widget class="QLineEdit" name="settingBlenderVersions">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="2">
+                <widget class="QPushButton" name="buttonHoudiniVersions">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="2">
-                <widget class="QPushButton" name="buttonNukeInit">
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="2">
-                <widget class="QPushButton" name="buttonMayaFolder">
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="10" column="2">
-                <widget class="QPushButton" name="buttonSyntheyesFolder">
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="1">
+               <item row="10" column="1">
                 <widget class="QLineEdit" name="settingBlenderFolder">
                  <property name="minimumSize">
                   <size>
@@ -1875,17 +2058,7 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="settingMacServerPath">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
+               <item row="3" column="1">
                 <widget class="QLineEdit" name="settingPythonLibraries">
                  <property name="minimumSize">
                   <size>
@@ -1895,21 +2068,24 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
+               <item row="1" column="2">
                 <widget class="QPushButton" name="buttonMacServerPath">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="2">
-                <widget class="QPushButton" name="buttonHoudiniFolder">
-                 <property name="text">
-                  <string>Edit</string>
+               <item row="13" column="1">
+                <widget class="QLineEdit" name="settingHoudiniVersions">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="1">
+               <item row="7" column="1">
                 <widget class="QLineEdit" name="settingNukeMenu">
                  <property name="minimumSize">
                   <size>
@@ -1919,14 +2095,14 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="8" column="2">
+               <item row="10" column="2">
                 <widget class="QPushButton" name="buttonBlenderFolder">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="0">
+               <item row="14" column="0">
                 <widget class="QLabel" name="label_21">
                  <property name="font">
                   <font>
@@ -1938,71 +2114,15 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="6" column="2">
+               <item row="7" column="2">
                 <widget class="QPushButton" name="buttonNukeMenu">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_25">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Server Path PC</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="settingNukeInit">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_23">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Nuke Menu Template</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_22">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Nuke Init Template</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QLineEdit" name="settingMayaFolder">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="settingPCServerPath">
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="settingNukeVersions">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -2012,13 +2132,53 @@ QTabBar {
                 </widget>
                </item>
                <item row="4" column="2">
-                <widget class="QPushButton" name="buttonNukeFolder">
+                <widget class="QPushButton" name="buttonNukeVersions">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="1">
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="settingNukeInit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="11" column="2">
+                <widget class="QPushButton" name="buttonBlenderVersions">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QLineEdit" name="settingMayaFolder">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="1">
+                <widget class="QLineEdit" name="settingSyntheyesVersions">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="12" column="1">
                 <widget class="QLineEdit" name="settingHoudiniFolder">
                  <property name="minimumSize">
                   <size>
@@ -2028,7 +2188,7 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
+               <item row="5" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -2046,19 +2206,14 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="9" column="0">
-                <widget class="QLabel" name="label_20">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
+               <item row="3" column="2">
+                <widget class="QPushButton" name="buttonPythonLibraries">
                  <property name="text">
-                  <string>Houdini Folder</string>
+                  <string>Edit</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="1" column="0">
                 <widget class="QLabel" name="label_24">
                  <property name="font">
                   <font>
@@ -2070,7 +2225,7 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
+               <item row="3" column="0">
                 <widget class="QLabel" name="label_26">
                  <property name="font">
                   <font>
@@ -2082,26 +2237,7 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
-                <widget class="QPushButton" name="buttonPythonLibraries">
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="font">
-                  <font>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Maya Folder</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
+               <item row="4" column="0">
                 <widget class="QLabel" name="label_28">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -2119,8 +2255,20 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="settingNukeVersions">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_32">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Flow URL</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="settingFlowURL">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -2129,17 +2277,14 @@ QTabBar {
                  </property>
                 </widget>
                </item>
-               <item row="3" column="2">
-                <widget class="QPushButton" name="buttonNukeVersions">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="buttonFlowURL">
                  <property name="text">
                   <string>Edit</string>
                  </property>
                 </widget>
                </item>
               </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_13"/>
              </item>
             </layout>
            </item>

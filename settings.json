@@ -4,7 +4,8 @@
         "Complete",
         "On Hold",
         "Omit",
-        "Pending"
+        "Pending",
+        "Chad"
     ],
     "settingFolderShotStatuses": [
         "Final",
@@ -27,7 +28,7 @@
         "Nuke15"
     ],
     "settingMacServerPath": "Sample Path",
-    "settingPCServerPath": "Sample PC Path",
+    "settingPCServerPath": "Sample PC Path Sample",
     "settingPythonLibraries": "TEST PYTHON LIBRARIES PYTHON",
     "settingNukeFolder": "NUKE FOLDER SETTING NUKE FOLDER SETTING",
     "settingNukeInit": "NUKE INIT TEMPLATE NUKE INIT TEMPLATE",
@@ -38,5 +39,14 @@
     "settingSyntheyesFolder": "SYNTHEYES  FOLDER SYNTHEYES  FOLDER",
     "settingDefaultTabRadio": "TASKS",
     "settingDefaultProject": "TestProjectHelloTest",
-    "settingDefaultApplicationRadio": "NUKE"
+    "settingDefaultApplicationRadio": "NUKE",
+    "settingMayaVersions": [
+        "Maya 12",
+        "Maya 13",
+        "Maya 14"
+    ],
+    "settingBlenderVersions": "Blender version",
+    "settingHoudiniVersions": "Houdini Version",
+    "settingSyntheyesVersions": "Syntheyes Version",
+    "settingFlowURL": "google.com"
 }
