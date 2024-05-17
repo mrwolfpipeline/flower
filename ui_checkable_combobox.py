@@ -43,6 +43,15 @@ class checkablecombobox(QComboBox):
         # Flag to indicate initialization complete
         self.initialized = False
 
+    def checkItems(self, items_to_check):
+        for i in range(self.model().rowCount()):
+            item = self.model().item(i)
+            item_text = item.text()
+            if item_text in items_to_check:
+                item.setCheckState(Qt.Checked)
+            else:
+                item.setCheckState(Qt.Unchecked)
+
     def getSelected(self, filter_type):
         if self.initialized:
             selected = self.currentData()

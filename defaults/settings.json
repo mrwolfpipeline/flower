@@ -5,7 +5,7 @@
         "On Hold",
         "Omit",
         "Pending",
-        "NotChad"
+        "Chad"
     ],
     "settingFolderShotStatuses": [
         "Final",
@@ -48,15 +48,5 @@
     "settingBlenderVersions": "Blender version",
     "settingHoudiniVersions": "Houdini Version",
     "settingSyntheyesVersions": "Syntheyes Version",
-    "settingFlowURL": "google.com",
-    "settingDisplayFields": [
-        "Shot.Thumbnail",
-        "Shot.ShotKeyID",
-        "Task.Task Name",
-        "Task.Pipeline Step",
-        "Task.Task Status",
-        "Task.Start Date",
-        "Shot.Sequence",
-        "Task.Last Opened in Launcher"
-    ]
+    "settingFlowURL": "google.com"
 }

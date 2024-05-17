@@ -1,6 +1,8 @@
 import json
 import sys
 import requests
+from PySide2 import QtCore
+
 from auto_load_ui import autoloadUi  # Import the autoloadUi function
 from flow_launch_stylesheet import radio_button_style
 import util_flow
@@ -45,8 +47,13 @@ class FlowLaunch(QWidget):
         self.user_name = str(self.user_object)
         self.user_details = util_flow.get_user_details(self.user_name)
         self.user_tasks = util_flow.get_user_tasks(self.user_name)
+        self.task_field_dict = {}
+
+        #TODO: this is erroring out and saying it can't find the task enttiy. This would be used for the task status filtering
         self.task_statuses = util_flow.get_status_list("Task")
         self.selected_project = None
+        self.prev_selected_display_fields = None
+        self.entity_map = util_flow.get_entity_info()
 
         self.init_ui()
 
@@ -81,6 +88,7 @@ class FlowLaunch(QWidget):
             self.defaultTab = data['settingDefaultTabRadio']
             self.settingDefaultApplication = data['settingDefaultApplicationRadio']
             self.flowURL = data['settingFlowURL']
+            self.display_field_list = data["settingDisplayFields"]
 
             # this is designed to get the value from the json and apply it to the matching name in the ui.
             # for this to work the line edit in the ui needs to have the same name as the propery in the json
@@ -160,6 +168,8 @@ class FlowLaunch(QWidget):
                 self.appTabs.setCurrentIndex(i)
                 break
 
+        self.buttonFieldDisplay.clicked.connect(self.save_display_fields)
+
         self.create_project_list()
         self.create_task_list()
 
@@ -177,6 +187,135 @@ class FlowLaunch(QWidget):
 
         self.buttonFlowSite.clicked.connect(lambda: self.openUrlWithHttps(self.flowURL))
 
+        self.build_sg_task_field_controllers()
+
+        self.load_display_fields()
+
+        util_flow.get_user_tasks_custom(self.user_name, self.display_field_list)
+
+    # Go through mapping of fields to build proper field names based on field and entity relationships
+    def convert_display_names_to_field_names(self):
+        print("DISPLAY LIST")
+        print(self.display_field_list)
+
+        print("ENTITY MAP")
+        print(self.entity_map)
+
+        self.task_field_dict = {}
+        self.backend_field_list = []
+
+
+        for display_name in self.display_field_list:
+            entity, display_field = display_name.split('.')
+            field_dict = self.entity_map.get(entity)
+            field_name = field_dict.get(display_field).get('field_name')
+            data_type = field_dict.get(display_field).get('data_type')
+            valid_type = field_dict.get(display_field).get('valid_types')
+
+            # 'entity.Shot.sg_sequence.Sequence.episode',
+            # MAP RELATIONSHIPS FOR MODIFIED FIELD NAME AS IT RELATES TO TASK ENTITY
+            if entity == 'Task':
+                pass
+
+            elif entity == 'Project':
+                field_name = 'project.Project.' + field_name
+
+            else:
+                if data_type == 'entity':
+                    field_name = 'entity.' + str(entity) + '.' + field_name + '.' + 'name'
+
+                else:
+                    field_name = 'entity.' + str(entity) + '.' + str(field_name)
+
+            # key = (entity, field_name, display_field)  # Create a tuple key
+            key = field_name
+
+            if key not in self.task_field_dict:
+                self.task_field_dict[key] = {}  # Use the tuple key
+            if field_name:
+                self.task_field_dict[key] = field_dict[display_field]
+
+        # self.backend_field_list = [key[1] for key in self.task_field_dict.keys()]
+        self.backend_field_list = [key for key in self.task_field_dict.keys()]
+        # self.display_field_list.extend(['Task ID', 'Project ID', 'Shot Id'])
+
+        # ADD DEFAULT FIELDS TO TASK FIELD DICT
+
+        self.task_field_dict[('id')] = {'data_type': 'number', 'entity_type': 'Task', 'display_name': 'Task Id', 'field_name': 'id', 'valid_types': None}
+        self.task_field_dict[('project.Project.id')] = {'data_type': 'number', 'entity_type': 'Project', 'display_name': 'Project Id', 'field_name': 'project.Project.id', 'valid_types': None}
+        self.task_field_dict[('entity.Shot.id')] = {'data_type': 'number', 'entity_type': 'Shot', 'display_name': 'Shot Id', 'field_name': 'entity.Shot.id', 'valid_types': None}
+
+        # self.task_field_dict[('Task', 'id', 'Id')] = {'data_type': 'number', 'entity_type': 'Task', 'display_name': 'Task Id', 'field_name': 'id', 'valid_types': None}
+        # self.task_field_dict[('Project', 'project.Project.id', 'Project Id')] = {'data_type': 'number', 'entity_type': 'Project', 'display_name': 'Project Id', 'field_name': 'project.Project.id', 'valid_types': None}
+        # self.task_field_dict[('Shot', 'entity.Shot.id', 'Shot Id')] = {'data_type': 'number', 'entity_type': 'Shot', 'display_name': 'Shot Id', 'field_name': 'entity.Shot.id', 'valid_types': None}
+        # self.project_field_dict[('Project', 'project.Project.name', 'Project Name'): {'data_type': 'text', 'entity_type': 'Project',
+        #                                                       'display_name': 'Project Name', 'field_name': 'name',
+        #                                                       'valid_types': None}
+        print(self.task_field_dict)
+
+    def load_display_fields(self):
+        task_field_list = []
+        shot_field_list = []
+        project_field_list = []
+        for field in self.display_field_list:
+            self.fieldList.addItem(field)
+            if "Task." in field:
+                field = field.replace("Task.", "")
+                task_field_list.append(field)
+
+            if "Project." in field:
+                field = field.replace("Project.", "")
+                project_field_list.append(field)
+
+            if "Shot." in field:
+                field = field.replace("Shot.", "")
+                shot_field_list.append(field)
+
+        self.taskFields.checkItems(task_field_list)
+        self.shotFields.checkItems(shot_field_list)
+        self.projectFields.checkItems(project_field_list)
+
+        self.prev_selected_display_fields = self.display_field_list
+
+    def save_display_fields(self):
+        self.update_display_fields()
+        self.update_json("settingDisplayFields", self.display_field_list, button=None, default_variable=None)
+
+    def update_display_fields(self):
+        self.display_field_list = []
+
+        # Iterate over each item in self.fieldList
+        for index in range(self.fieldList.count()):
+            item = self.fieldList.item(index)
+            # Append the text of the item to my_list
+            self.display_field_list.append(item.text())
+
+    def build_sg_task_field_controllers(self):
+        print("Building SG task fields")
+
+        task_field_names = list(self.entity_map['Task'].keys())
+        project_field_names = list(self.entity_map['Project'].keys())
+        shot_field_names = list(self.entity_map['Shot'].keys())
+
+        self.setupFilterComboBox("Task Fields", self.taskFields, task_field_names)
+        self.setupFilterComboBox("Project Fields", self.projectFields, project_field_names)
+        self.setupFilterComboBox("Shot Fields", self.shotFields, shot_field_names)
+
+        self.taskFields.model().sort(0)
+        self.projectFields.model().sort(0)
+        self.shotFields.model().sort(0)
+
+        self.fieldList.setStyleSheet("""
+        QListWidget {
+            alternate-background-color: #cce6ff; /* Light blue color */
+            spacing: 3px; /* Adjust spacing between items */
+        }
+        """)
+
+    def populate_task_fiels_combobox(self):
+        print("populating task fields combo")
+
+
     def openUrlWithHttps(self, url):
         # Check if the URL starts with "http://" or "https://"
         if url.startswith("http://") or url.startswith("https://"):
@@ -189,123 +328,15 @@ class FlowLaunch(QWidget):
     # Assuming self.buttonFlowSite is your QPushButton and self.flowURL is your URL string
 
     def populate_version_combobox(self):
-        print("POP VERSIONS")
-
-    # TODO: make this modular so it applies to add projects, add contents, etc
-    def add_tasks(self, table):
-        id_column = self.find_column_index(table, 'id')
-
-        row = 0
-        added_task_ids = set()  # To keep track of already added project IDs
-        for task in self.user_tasks:
-            task_project_id = task['project.Project.id']
-            if str(self.selected_project) == str(task_project_id):
-
-                task_id = task['id']
-                if task_id in added_task_ids:
-                    continue
-
-                added_task_ids.add(task_id)
-
-                shot_image = task['entity.Shot.image']
-                shot_name = task['entity'].get('name')
-                shot_episode = task['entity.Shot.sg_sequence.Sequence.episode']
-                task_name = task['content']
-                task_type = task['step'].get('name')
-                task_bid_mins = task['est_in_mins']
-
-                # Convert bid mids to hours
-                if task_bid_mins is not None:
-                    task_bid_hours = task_bid_mins / 60
-
-                else:
-                    task_bid_hours = 0
-
-                # Convert logged mins to hours
-                task_logged_mins = task['time_logs_sum']
-
-                if task_logged_mins is not None:
-                    task_logged_hours = task_logged_mins / 60
-
-                else:
-                    task_logged_hours = 0
-
-                task_due_date = task['due_date']
-                task_last_worked = task['sg_last_opened_in_launcher']
-
-                if task_last_worked is not None:
-                    # Format the datetime object as "Sun May 12 12:00AM"
-                    task_last_worked = task_last_worked.strftime("%a %b %d %I:%M%p")
-                else:
-                    task_last_worked = ''
-
-                if task_bid_hours != 0:
-                    task_logged_vs_bid = round(task_logged_hours / task_bid_hours * 100)
-                    task_logged_vs_bid_percent = (f"{task_logged_vs_bid}%")
-
-                else:
-                    task_logged_vs_bid_percent = 0
-
-                # Convert string to datetime object
-                task_due_date_object = datetime.strptime(task_due_date, "%Y-%m-%d")
-
-                # Format the datetime object as "Sun May 12" format
-                task_due_date = task_due_date_object.strftime("%a %b %d")
-
-                # Convert variables to table items
-                shot_name_item = QTableWidgetItem(shot_name)
-                shot_episode_item = QTableWidgetItem(str(shot_episode))
-                task_name_item = QTableWidgetItem(task_name)
-                task_type_item = QTableWidgetItem(task_type)
-                task_due_item = QTableWidgetItem(task_due_date)
-                task_bid_hours_item = QTableWidgetItem(str(task_bid_hours))
-                task_logged_hours_item = QTableWidgetItem(str(task_logged_hours))
-                task_logged_vs_bid_item = QTableWidgetItem(str(task_logged_vs_bid_percent))
-                task_last_worked_item = QTableWidgetItem(str(task_last_worked))
-                task_id = QTableWidgetItem(str(task_id))
-
-                # Download the image
-                if shot_image is None:
-                    # Default shot image path goes here
-                    shot_image = 'ui/images/missing_image.png'
-                    # Load default application image
-                    task_pixmap = QPixmap(shot_image)
-
-                else:
-                    response = requests.get(shot_image)
-                    image_data = response.content
-                    # Create a QPixmap from the image data
-                    task_pixmap = QPixmap()
-                    task_pixmap.loadFromData(image_data)
-
-                # Scale the pixmap to fit within 80x80 while preserving aspect ratio
-                scaled_pixmap = task_pixmap.scaled(QSize(80, 50))
-
-                # Create a QLabel to display the icon
-                icon_label = QLabel()
-                icon_label.setPixmap(scaled_pixmap)
-                icon_label.setAlignment(Qt.AlignCenter)  # Center the icon within the QLabel
-
-                # Insert a new row and set the items
-                table.insertRow(row)
-                table.setCellWidget(row, 0, icon_label)
-
-                table.setItem(row, 1, shot_name_item)
-                table.setItem(row, 2, task_name_item)
-                table.setItem(row, 3, task_due_item)
-                table.setItem(row, 4, task_bid_hours_item)
-                table.setItem(row, 5, task_logged_hours_item)
-                table.setItem(row, 6, task_logged_vs_bid_item)
-                table.setItem(row, 7, task_last_worked_item)
-
-                table.setItem(row, id_column, task_id)
+        print("POP APPLICATION VERSIONS")
 
     def filter_table(self, table):
-        self.selected_project = self.get_selected_item_id(self.tableTaskProjects)
+        self.selected_project = self.get_selected_item_id(self.tableTaskProjects, 'project.Project.id')
 
         table.setRowCount(0)
 
-        self.add_tasks(table)
+        # TODO: REPLACE WITH MODULAR ADD TASKS
+        self.add_items_to_table(table, self.backend_field_list, self.display_field_list, 'id', filter='Project', table_type='Task')
 
     def setupFilterComboBox(self, type, combo_box, data):
         combo_box.addItems(data)
@@ -314,7 +345,6 @@ class FlowLaunch(QWidget):
         # Find the length of the longest item
         widest_item_length = max(len(combo_box.model().item(i).text()) for i in range(combo_box.model().rowCount()))
 
-        # Calculate the width based on the length of the longest item
         # Adjust the width_factor as needed for additional spacing
         width_factor = 10  # Adjust this value as needed
         combo_box_width = widest_item_length * width_factor
@@ -324,17 +354,64 @@ class FlowLaunch(QWidget):
 
         combo_box.selectionChanged.connect(self.handleSelectionChanged)
 
-    def handleSelectionChanged(self, filter, selected, deselected):
-        if filter == "Task Task Status":
+    def value_in_list(self,list, value):
+        items = list.findItems(value, QtCore.Qt.MatchExactly)
+        return len(items) > 0
+
+    def handleSelectionChanged(self, type, selected, deselected):
+
+        if type == "Task Task Status":
             self.filter_table(self.tableTasks)
 
         # TODO update for other tables
-        elif filter == "Folder Shot Status":
+        elif type == "Folder Shot Status":
             self.filter_table(self.tableTasks)
 
         # TODO update for other tables
-        elif filter == "Folder Task Status":
+        elif type == "Folder Task Status":
             self.filter_table(self.tableTasks)
+
+        elif type in ["Task Fields", "Project Fields", "Shot Fields"]:
+            self.update_fields_by_type(type, selected)
+
+    def update_fields_by_type(self, type, selected):
+        selected_modified = []
+        field_type = type.replace(" Fields", ".")
+        for task_field in selected:
+            task_field = field_type + task_field
+            selected_modified.append(task_field)
+
+        field_type_prefix = field_type[:-1]  # Remove the dot
+
+        # Filter the previous and current selected display fields based on field type
+        filtered_list1 = [item for item in self.prev_selected_display_fields if item.startswith(field_type)]
+        filtered_list2 = [item for item in selected_modified if item.startswith(field_type)]
+
+        # Convert filtered lists to sets
+        set1 = set(filtered_list1)
+        set2 = set(filtered_list2)
+
+        # Find items added to list2 compared to list1
+        added_items = set2 - set1
+
+        # Find items removed from list2 compared to list1
+        removed_items = set1 - set2
+
+        # Remove items from the QListWidget
+        for item_text in removed_items:
+            if item_text.startswith(field_type_prefix):  # Check if the item belongs to the correct type
+                item = self.fieldList.findItems(item_text, Qt.MatchExactly)
+                if item:
+                    self.fieldList.takeItem(self.fieldList.row(item[0]))
+                    self.prev_selected_display_fields.remove(item_text)
+
+        # Add items to the QListWidget
+        for item_text in added_items:
+            if item_text.startswith(field_type_prefix):  # Check if the item belongs to the correct type
+                self.fieldList.addItem(item_text)
+                self.prev_selected_display_fields.append(item_text)
+
+        self.update_display_fields()
 
     def find_column_index(self, table, column_name):
         header = table.horizontalHeader()
@@ -357,7 +434,7 @@ class FlowLaunch(QWidget):
 
         self.tableTasks.verticalHeader().setDefaultSectionSize(80)
 
-        self.tableTasks.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTasks))
+        self.tableTasks.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTasks, 'id'))
 
         # Function to handle sorting by the header column clicked. Can be added to other tables.
         self.tableTasks.horizontalHeader().sectionClicked.connect(self.on_header_clicked)
@@ -365,18 +442,18 @@ class FlowLaunch(QWidget):
         self.tableTasks.setAlternatingRowColors(True)
 
         # TODO: maybe dynamically resize images, rows, columns height based on image size
-        # TODO: add settings for which fields are displayed and make it so you can add whichever field you want from sg
         # TODO: figure out method for displaying columns based on settings, getting fields from sg, displaying those fields as columpns and then populating the data
         # TODO: figure out filtering methods for tasks
 
         # Set the row height for all rows
         self.ui.tableTaskProjects.verticalHeader().setDefaultSectionSize(60)
 
-        # Hide ID column
-        id_column = self.find_column_index(self.tableTasks, 'id')
-        self.tableTasks.setColumnHidden(id_column, True)
+        self.convert_display_names_to_field_names()
+        self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.backend_field_list)
 
-        self.add_tasks(self.tableTasks)
+        self.add_items_to_table(self.tableTasks, self.backend_field_list, self.display_field_list, 'id', filter=None, table_type='Task')
+
+        self.tableTasks.horizontalHeader().setSectionsMovable(True)
 
     def on_header_clicked(self, logicalIndex):
         # Retrieve the table header view that emitted the signal
@@ -390,10 +467,10 @@ class FlowLaunch(QWidget):
         order = table.horizontalHeader().sortIndicatorOrder()
         table.sortItems(logicalIndex, order)
 
-    def get_selected_item_id(self, table):
+    def get_selected_item_id(self, table, id_column):
         selected_items = table.selectedItems()
         if selected_items:
-            id_column_index = self.find_column_index(table, 'id')  # Adjust this index according to your table
+            id_column_index = self.find_column_index(table, id_column)  # Adjust this index according to your table
 
             selected_item = selected_items[0]  # Assuming you are interested in the first selected item
             id_item = table.item(selected_item.row(), id_column_index)
@@ -401,11 +478,11 @@ class FlowLaunch(QWidget):
                 return id_item.text()
         return None
 
-    def on_row_clicked(self, row, table_widget):
+    def on_row_clicked(self, row, table_widget, id_field):
         # Get the column index of the column named "id"
         column_index = -1
         for column in range(table_widget.columnCount()):
-            if table_widget.horizontalHeaderItem(column).text() == "id":
+            if table_widget.horizontalHeaderItem(column).text() == id_field:
                 column_index = column
                 break
 
@@ -422,20 +499,23 @@ class FlowLaunch(QWidget):
         # Sort the table by the specified column index
         table.sortItems(column_index, Qt.DescendingOrder if descending else Qt.AscendingOrder)
 
-    def add_items_to_table(self, table, fields_list, id_field):
-        print("ADDING ITEMS TO TABLE")
+    def add_items_to_table(self, table, fields_list, display_field_list, id_field, filter=None, table_type=None):
+        header_labels = [field.split('.')[-1] for field in display_field_list]
+        header_labels.append(id_field)
+        fields_list.append(id_field)
 
-        header_labels = [field.split('.')[-1] for field in fields_list]
         table.clear()
+        table.setColumnCount(len(header_labels))
         table.setHorizontalHeaderLabels(header_labels)
 
         row = 0
         col = 0
         added_ids = set()  # To keep track of already added project IDs
 
-        # TODO: FIELDS LIST AND ID FIELD REQUIRED ON SETTINGS PAGE
-        # TODO: add qcombobox of all fields that can be added to the viewer
         for task in self.user_tasks:
+            if self.selected_project is not None and str(task['project.Project.id']) != str(self.selected_project):
+                continue
+
             if task[id_field] in added_ids:
                 continue
 
@@ -444,44 +524,100 @@ class FlowLaunch(QWidget):
                 added_ids.add(task[id_field])
                 for field in fields_list:
                     task_field = task[field]
-                    # print(field + " - " + str(task_field))
-                    # print(row)
-                    # print(col)
 
-                    if type(task_field) is str:
-                        # IMAGE FIELD
-                        if 'sg-media' in task_field:
-                            if task_field is None:
-                                # Default shot image path goes here
-                                image = 'ui/images/missing_image.png'
-                                # Load default application image
-                                image_pixmap = QPixmap(task_field)
+                    if table_type == 'Task':
+                        field_type = self.task_field_dict.get(field).get('data_type')
 
-                            else:
-                                response = requests.get(task_field)
-                                image_data = response.content
-                                # Create a QPixmap from the image data
-                                image_pixmap = QPixmap()
-                                image_pixmap.loadFromData(image_data)
+                    elif table_type == 'Project':
+                        field_type = self.project_field_dict.get(field).get('data_type')
 
-                            # Scale the pixmap to fit within 80x80 while preserving aspect ratio
-                            scaled_pixmap = image_pixmap.scaled(QSize(100, 60))
+                    else:
+                        field_type = type(task_field)
 
-                            # Create a QLabel to display the icon
-                            task_table_item = QLabel()
-                            task_table_item.setPixmap(scaled_pixmap)
-                            task_table_item.setAlignment(Qt.AlignCenter)  # Center the icon within the QLabel
+                    #TODO: figure out way to find field types to better handle data input into table
+                    # TODO: create project dict for reference
 
-                            table.setCellWidget(row, col, task_table_item)
+                    # HANDLE IMAGE
+                    if field_type == 'image':
+                        if task_field is None:
+                            # Default shot image path goes here
+                            image = 'ui/images/missing_image.png'
+                            # Load default application image
+                            image_pixmap = QPixmap(image)
 
-                        # STRING FIELD
                         else:
-                            # Create a QTableWidgetItem
-                            task_table_item = QTableWidgetItem(task_field)
-                            table.setItem(row, col, task_table_item)
+                            response = requests.get(task_field)
+                            image_data = response.content
+                            # Create a QPixmap from the image data
+                            image_pixmap = QPixmap()
+                            image_pixmap.loadFromData(image_data)
 
-                    # INT FIELD
-                    elif type(task_field) is int:
+                        # Scale the pixmap to fit within 80x80 while preserving aspect ratio
+                        scaled_pixmap = image_pixmap.scaled(QSize(100, 60))
+
+                        # Create a QLabel to display the icon
+                        task_table_item = QLabel()
+                        task_table_item.setPixmap(scaled_pixmap)
+                        task_table_item.setAlignment(Qt.AlignCenter)  # Center the icon within the QLabel
+
+                        table.setCellWidget(row, col, task_table_item)
+
+                    # HANDLE TEXT
+                    elif field_type == 'text' or field_type == 'entity' or field_type == 'str':
+                        # Create a QTableWidgetItem
+                        task_table_item = QTableWidgetItem(task_field)
+                        table.setItem(row, col, task_table_item)
+
+                    # HANDLE NUMBER
+                    elif field_type == 'number' or field_type == 'int':
+                        task_field = str(task_field)
+                        task_table_item = QTableWidgetItem(task_field)
+                        table.setItem(row, col, task_table_item)
+
+                    # HANDLE DATE
+                    elif field_type == 'date':
+                        if task_field is None:
+                            task_field = ""
+
+                        else:
+                            # Convert string to datetime object
+                            date_obj = datetime.strptime(task_field, "%Y-%m-%d")
+
+                            # Format the datetime object
+                            formatted_date = date_obj.strftime("%a %b %d")
+
+                            task_field = str(formatted_date)
+
+                        task_table_item = QTableWidgetItem(task_field)
+                        table.setItem(row, col, task_table_item)
+
+                    elif field_type == 'date_time':
+                        if task_field is None:
+                            task_field = ""
+
+                        else:
+                            # Format the date and time
+                            formatted_date_time = task_field.strftime('%a %b %d')
+
+                            # Manually handle leading zero removal
+                            if formatted_date_time[8] == '0':
+                                formatted_date_time = formatted_date_time[:8] + formatted_date_time[9:]
+                            if formatted_date_time[-5] == '0':
+                                formatted_date_time = formatted_date_time[:-5] + formatted_date_time[-4:]
+
+                            task_field = formatted_date_time
+
+                        task_field = str(task_field)
+                        task_table_item = QTableWidgetItem(task_field)
+                        table.setItem(row, col, task_table_item)
+
+                    # TODO: add lookup for status display name
+                    elif field_type == 'status_list':
+                        if task_field is not None:
+                            print("DEBUG")
+                            print(self.task_field_dict.get(field))
+                            task_field = self.task_field_dict.get(field).get('display_values').get(task_field)
+
                         task_field = str(task_field)
                         task_table_item = QTableWidgetItem(task_field)
                         table.setItem(row, col, task_table_item)
@@ -494,10 +630,6 @@ class FlowLaunch(QWidget):
         # Remove the first row from the QT Designer file using for testing
         self.tableTaskProjects.removeRow(0)
         self.tableTaskProjects.setShowGrid(False)
-
-        # Hide ID column
-        id_column = self.find_column_index(self.tableTaskProjects, 'id')
-        self.tableTaskProjects.setColumnHidden(id_column, True)
 
         self.tableTaskProjects.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableTaskProjects.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -520,14 +652,28 @@ class FlowLaunch(QWidget):
         """)
 
         # Connect the cellClicked signal to the custom slot
-        self.tableTaskProjects.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTaskProjects))
+        self.tableTaskProjects.cellClicked.connect(lambda row, col: self.on_row_clicked(row, self.tableTaskProjects, 'project.Project.id'))
 
         # TESTING AND CREATING DYNAMIC TASK ADDING
         id_field = 'project.Project.id'
         fields_list = ['project.Project.image', 'project.Project.name', 'project.Project.id']
-        self.add_items_to_table(self.tableTaskProjects, fields_list, id_field)
+        self.project_field_dict = {}
+        self.project_field_dict['project.Project.image'] = {'data_type': 'image', 'entity_type': 'Project', 'display_name': 'Thumbnail', 'field_name': 'image', 'valid_types': None}
+        self.project_field_dict['project.Project.name'] = {'data_type': 'text', 'entity_type': 'Project',
+                                                            'display_name': 'Project Name', 'field_name': 'name',
+                                                            'valid_types': None}
+        self.project_field_dict['project.Project.id'] = {'data_type': 'number', 'entity_type': 'Project',
+                                                            'display_name': 'Project ID', 'field_name': 'id',
+                                                            'valid_types': None}
+
+        display_fields_list = ['Image', "Project Name"]
+        self.add_items_to_table(self.tableTaskProjects, fields_list, display_fields_list, id_field, filter=None, table_type='Project')
 
         self.sort_table_by_column(self.tableTaskProjects, 1)
+
+        # Hide ID column
+        id_column = self.find_column_index(self.tableTaskProjects, 'project.Project.id')
+        self.tableTaskProjects.setColumnHidden(id_column, True)
 
     def closeEvent(self, event):
         # Call your function here
@@ -605,12 +751,20 @@ class FlowLaunch(QWidget):
         with open('settings.json', 'r') as file:
             data = json.load(file)
 
-        # Update JSON data with the new key-value pair
-        data[key] = value
+        if key in data:
+            del data[key]
+        # If the key is already in the data and its value is a list
+        if key in data and isinstance(data[key], list):
+            # Update the existing list with the new value
+            data[key] = value
+        else:
+            # Otherwise, simply update the key-value pair
+            data[key] = value
 
         # Write updated JSON data back to the file
         with open('settings.json', 'w') as file:
             json.dump(data, file, indent=4)
+
         if button is not None:
             button.setEnabled(False)
 
