@@ -55,8 +55,9 @@
         "Task.Task Name",
         "Task.Pipeline Step",
         "Task.Task Status",
-        "Task.Start Date",
+        "Task.Due Date",
         "Shot.Sequence",
-        "Task.Last Opened in Launcher"
+        "Task.Last Opened in Launcher",
+        "Project.Billboard"
     ]
 }
