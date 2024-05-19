@@ -11,7 +11,7 @@ import table_populator
 #TODO: method for fileting episodes
 #TODO: need to be able to display episode field
 
-class TableManager(flow_launch.FlowLaunch):
+class TableManager():
 	def __init__(self, table_tasks, user, table_task_projects, user_tasks, task_field_dict, backend_field_dict, display_field_list):
 		self.tableTasks = table_tasks
 		self.tableTaskProjects = table_task_projects
@@ -34,8 +34,7 @@ class TableManager(flow_launch.FlowLaunch):
 		}
 		self.project_display_fields = ['Image', "Project Name"]
 
-	def on_header_clicked(self, logicalIndex):
-		table = self.sender().parentWidget()
+	def on_header_clicked(self, logicalIndex, table):
 		self.sort_column(table, logicalIndex)
 
 	def table_creator(self):
@@ -55,8 +54,8 @@ class TableManager(flow_launch.FlowLaunch):
 		                               self.user_tasks, self.selected_project, self.task_field_dict, 'id', filter=None,
 		                               table_type='Task')
 
-		id_column = self.find_column_index(self.tableTasks, 'id')
-		self.tableTasks.setColumnHidden(id_column, True)
+		# id_column = self.find_column_index(self.tableTasks, 'id')
+		# self.tableTasks.setColumnHidden(id_column, True)
 		
 	def refresh_data(self, user_tasks, task_field_dict, backend_field_list, display_field_list):
 		project_id_columb = self.find_column_index(self.tableTaskProjects, 'project.Project.id')
@@ -80,15 +79,17 @@ class TableManager(flow_launch.FlowLaunch):
 		self.sort_table_by_column(self.tableTaskProjects, 1)
 
 	def create_task_table(self, table):
-		print('create task table function called and populating task table')
+		print('creating task table')
 		table.verticalHeader().setVisible(False)
-		table.removeRow(0)
 		table.setShowGrid(False)
 		table.setSelectionBehavior(QAbstractItemView.SelectRows)
 		table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 		table.verticalHeader().setDefaultSectionSize(80)
 		table.cellClicked.connect(lambda row, col: self.on_row_clicked(row, table, 'id'))
-		table.horizontalHeader().sectionClicked.connect(self.on_header_clicked)
+		# table.horizontalHeader().sectionClicked.connect(self.on_header_clicked)
+		table.horizontalHeader().sectionClicked.connect(
+			lambda logicalIndex: self.on_header_clicked(logicalIndex, table))
+
 		table.setAlternatingRowColors(True)
 
 		table_populator.populate_table(
@@ -98,11 +99,18 @@ class TableManager(flow_launch.FlowLaunch):
 
 		table.horizontalHeader().setSectionsMovable(True)
 
-		id_column = self.find_column_index(table, 'id')
-		table.setColumnHidden(id_column, True)
+		# id_column = self.find_column_index(table, 'id')
+		# table.setColumnHidden(id_column, True)
 
 	def create_project_table(self, table):
-		table.removeRow(0)
+		print('creating project table')
+		# table.removeRow(0)
+
+		table_populator.populate_table(
+			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
+			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
+		)
+
 		table.setShowGrid(False)
 		table.setSelectionBehavior(QAbstractItemView.SelectRows)
 		table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -114,18 +122,13 @@ class TableManager(flow_launch.FlowLaunch):
 		QTableWidget::item:selected { padding: 5px; }
 		""")
 
-		table_populator.populate_table(
-			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
-			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
-		)
-
 		table.cellClicked.connect(lambda row, col: self.on_row_clicked(row, table, 'project.Project.id'))
 		table.cellClicked.connect(lambda row, col: self.filter_table(table))
 
 		self.sort_table_by_column(table, 1)
 
-		id_column = self.find_column_index(table, 'project.Project.id')
-		table.setColumnHidden(id_column, True)
+		# id_column = self.find_column_index(table, 'project.Project.id')
+		# table.setColumnHidden(id_column, True)
 
 	def on_row_clicked(self, row, table_widget, id_field):
 		# Find the column index for the given id_field

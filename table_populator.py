@@ -4,6 +4,15 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+def hide_id_column(table, column_name):
+    header = table.horizontalHeader()
+    for logical_index in range(header.count()):
+        visual_index = header.visualIndex(logical_index)
+        if header.model().headerData(visual_index, Qt.Horizontal) == column_name:
+            column_id = visual_index
+
+    table.setColumnHidden(column_id, True)
+
 def populate_table(table, fields_list, display_field_list, user_tasks, selected_project, ref_field_dict, id_field, filter=None, table_type=None):
     header_labels = [field.split('.')[-1] for field in display_field_list]
     header_labels.append(id_field)
@@ -138,4 +147,6 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
                 col += 1
             col = 0
             row += 1
+
+    hide_id_column(table, id_field)
 
