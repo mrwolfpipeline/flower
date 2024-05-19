@@ -45,30 +45,34 @@ def get_user_details(user):
 
     return user_data
 
-def get_user_tasks(user):
+def get_user_tasks(user, add_fields=None):
     print("GETTING USER TASKS")
     sg = FL.sg
     
     # Find the user based on the login
     filters = [["task_assignees.HumanUser.login", "is", user]]
     result_format = ['content',
-                     'entity',
-                     'entity.Shot.image',
-                     'sg_status_list',
-                     'sg_version',
-                     'step.Step.code',
-                     'step',
-                     'id',
-                     'project.Project.name',
-                     'entity.project.Project',
-                     'project.Project.id',
-                     'entity.Shot.sg_sequence.Sequence.episode',
-                     'project.Project.sg_mw_shot_regex',
-                     'project.Project.image',
-                     'est_in_mins',
-                     'time_logs_sum',
-                     'due_date',
-                     'sg_last_opened_in_launcher']
+                     'entity']
+    if add_fields:
+        result_format.extend(add_fields)
+    # result_format = ['content',
+    #                  'entity',
+    #                  'entity.Shot.image',
+    #                  'sg_status_list',
+    #                  'sg_version',
+    #                  'step.Step.code',
+    #                  'step',
+    #                  'id',
+    #                  'project.Project.name',
+    #                  'entity.project.Project',
+    #                  'project.Project.id',
+    #                  'entity.Shot.sg_sequence.Sequence.episode',
+    #                  'project.Project.sg_mw_shot_regex',
+    #                  'project.Project.image',
+    #                  'est_in_mins',
+    #                  'time_logs_sum',
+    #                  'due_date',
+    #                  'sg_last_opened_in_launcher']
 
     tasks = sg.find('Task', filters, result_format, include_archived_projects=False)
 
@@ -120,12 +124,45 @@ def get_status_list(entity_type):
         print("Error: Entity type '{}' not found in the Shotgun schema.".format(entity_type))
         return []
 
+# THIS NEEDS TO MATCH THE DISPLAY TO FIELD NAME CONVERTER IN FLOW LAUNCH
+# TODO: BETTER WAY TO HANDLE THIS BASED ON FIELD NAMES?
+def build_task_relationship_field_name(entity, field_name, data_type):
+    mapped_name = None
+
+    if entity == 'Task':
+        mapped_name = field_name
+
+    elif entity == 'Project':
+        mapped_name = 'project.Project.' + field_name
+
+    elif entity =='Episode':
+        mapped_name = 'entity.Shot.sg_sequence.Sequence.episode.name'
+
+    else:
+        if data_type == 'entity':
+            mapped_name = 'entity.' + str(entity) + '.' + field_name + '.' + 'name'
+
+        else:
+            mapped_name = 'entity.' + str(entity) + '.' + str(field_name)
+
+
+    # if entity == 'Episode':
+    #     print(mapped_name)
+
+    # if mapped_name is None:
+    #     print(entity)
+    #     print(field_name)
+    #     print(data_type)
+
+    return mapped_name
+
 def get_all_field_info(entity_type):
     # Retrieve the schema for the specified entity type
     schema = FL.sg.schema_field_read(entity_type)
 
     # Create a dictionary to store field info
     field_info = {}
+    all_mapped_fields = []
 
     # Iterate over each field in the schema
     for field_name, field_data in schema.items():
@@ -146,6 +183,10 @@ def get_all_field_info(entity_type):
         else:
             valid_type = None  # or any default value you prefer
 
+        mapped_name = build_task_relationship_field_name(entity_type, field_name, data_type)
+
+        all_mapped_fields.append(mapped_name)
+
         # Store field info in the dictionary
         field_info[display_name] = {
             'data_type': data_type,
@@ -153,10 +194,12 @@ def get_all_field_info(entity_type):
             'display_name': display_name,
             'field_name': field_name,
             'valid_types': valid_type,
-            'display_values': display_values
+            'display_values': display_values,
+            'mapped_name': mapped_name
         }
 
-    return field_info
+
+    return field_info, all_mapped_fields
 
 def get_entity_info():
     print("GETTING ENTITY MAP")
@@ -164,18 +207,41 @@ def get_entity_info():
     entities = ['Task', 'Shot', 'Sequence', 'Asset', 'Project', 'Episode', 'Version']
 
     entity_dict = {}
+    all_mapped_fields = []
 
     for entity in entities:
-        field_info = get_all_field_info(entity)
+        field_info, mapped_fields = get_all_field_info(entity)
 
         entity_dict[entity] = field_info
 
-    return entity_dict
+        all_mapped_fields.extend(mapped_fields)
+
+    # print(entity_dict)
+    # print("ALL MAPPED FIELDS")
+    # print(all_mapped_fields)
+    return entity_dict, all_mapped_fields
 
 if __name__ == "__main__":
     sg = get_sg_connection()
 
+    user_object = FL.sg_user_object
+    user = str(user_object)
 
-    tasks = get_user_tasks(user)
+    fields = ['episode',
+              'episode.Episode.name',
+              'name',
+              'step',
+              'entity.Shot.sg_sequence.Sequence.episode',
+              'entity.Sequence.episode',
+              'entity.Sequence.episode.name',
+              'entity.Sequence.episode.code',
+              'project.Project.name',
+              'id']
+
+    tasks = get_user_tasks(user, fields)
+
+    for task in tasks:
+        if task['project.Project.name'] == '[COY] Coyote - Season 0':
+            print(task)
     # print(tasks)
 

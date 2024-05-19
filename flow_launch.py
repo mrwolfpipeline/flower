@@ -50,10 +50,11 @@ class FlowLaunch(QWidget):
         self.user_details = util_flow.get_user_details(self.user_name)
         self.user_tasks = None
         self.task_field_dict = {}
+        self.display_field_list = None
 
         self.selected_project = None
         self.prev_selected_display_fields = None
-        self.entity_map = util_flow.get_entity_info()
+        self.entity_map, self.all_mapped_fields = util_flow.get_entity_info()
 
         self.init_ui()
 
@@ -179,7 +180,7 @@ class FlowLaunch(QWidget):
         # Setup foldersTaskStatusFilter
         self.setupFilterComboBox("Folder Task Status", self.foldersTaskStatusFilter, data["settingFolderTaskStatuses"])
 
-        self.buttonFlowSite.clicked.connect(lambda: self.openUrlWithHttps(self.flowURL))
+        self.buttonFlowSite.clicked.connect(self.openUrlWithHttps)
 
         self.build_sg_task_field_controllers()
 
@@ -187,7 +188,7 @@ class FlowLaunch(QWidget):
 
         # Load user tasks
         self.convert_display_names_to_field_names()
-        self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.backend_field_list)
+        self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.all_mapped_fields)
 
         # TODO: need to figure out way so that when you select columns to display those columns are updated in the table tasks table and table tasks is refreshed
         # reloading the project selected
@@ -213,12 +214,17 @@ class FlowLaunch(QWidget):
             elif entity == 'Project':
                 field_name = 'project.Project.' + field_name
 
+            elif entity == 'Episode':
+                field_name = 'entity.Shot.sg_sequence.Sequence.episode.name'
+
             else:
                 if data_type == 'entity':
                     field_name = 'entity.' + str(entity) + '.' + field_name + '.' + 'name'
 
                 else:
                     field_name = 'entity.' + str(entity) + '.' + str(field_name)
+
+
 
             # key = (entity, field_name, display_field)  # Create a tuple key
             key = field_name
@@ -273,9 +279,7 @@ class FlowLaunch(QWidget):
             self.display_field_list.append(item.text())
 
         self.convert_display_names_to_field_names()
-        self.user_tasks = util_flow.get_user_tasks()
-        self.table_manager.update_task_table(self.display_field_list)
-
+        self.table_manager.update_task_table(self.task_field_dict, self.backend_field_list, self.display_field_list)
 
     def build_sg_task_field_controllers(self):
         print("Building SG task fields")
@@ -299,7 +303,9 @@ class FlowLaunch(QWidget):
         }
         """)
 
-    def openUrlWithHttps(self, url):
+    def openUrlWithHttps(self):
+        url = self.settingFlowURL.text()
+
         # Check if the URL starts with "http://" or "https://"
         if url.startswith("http://") or url.startswith("https://"):
             # If it does, open the URL directly
@@ -330,15 +336,18 @@ class FlowLaunch(QWidget):
 
     def handleSelectionChanged(self, type, selected, deselected):
         if type == "Task Task Status":
-            self.filter_table(self.tableTasks)
+            pass
+            # self.filter_table(self.tableTasks)
 
         # TODO update for other tables
         elif type == "Folder Shot Status":
-            self.filter_table(self.tableTasks)
+            pass
+            # self.filter_table(self.tableTasks)
 
         # TODO update for other tables
         elif type == "Folder Task Status":
-            self.filter_table(self.tableTasks)
+            pass
+            # self.filter_table(self.tableTasks)
 
         elif type in ["Task Fields", "Project Fields", "Shot Fields"]:
             self.update_fields_by_type(type, selected)

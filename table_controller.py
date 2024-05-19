@@ -6,14 +6,17 @@ import util_flow
 import flow_launch
 import table_populator
 
+#TODO: better method for filtering statuses of tasks
+#TODO: method for filtering task types / pipeline steps
+#TODO: method for fileting episodes
 
 class TableManager:
-	def __init__(self, table_tasks, table_task_projects, user_tasks, task_field_dict, backend_field_dict,
-	             display_field_list):
+	def __init__(self, table_tasks, table_task_projects, user_tasks, task_field_dict, backend_field_dict, display_field_list):
 		self.tableTasks = table_tasks
 		self.tableTaskProjects = table_task_projects
 		self.display_field_list = display_field_list
 		self.selected_project = None
+		self.selected_task = None
 		self.user_tasks = user_tasks
 		self.task_field_dict = task_field_dict
 		self.backend_field_list = backend_field_dict
@@ -26,14 +29,23 @@ class TableManager:
 		self.create_project_table(self.tableTaskProjects)
 		self.create_task_table(self.tableTasks)
 
-	def update_task_table(self, display_field_list):
+	def update_task_table(self, task_field_dict, backend_field_list, display_field_list):
+		id_column = self.find_column_index(self.tableTasks, 'id')
+		self.tableTasks.setColumnHidden(id_column, False)
+		self.task_field_dict = task_field_dict
+		self.backend_field_list = backend_field_list
 		self.display_field_list = display_field_list
 		table_populator.populate_table(self.tableTasks, self.backend_field_list, self.display_field_list,
-		                               self.user_tasks,
-		                               self.selected_project, self.task_field_dict, 'id', filter=None,
+		                               self.user_tasks, self.selected_project, self.task_field_dict, 'id', filter=None,
 		                               table_type='Task')
 
+		id_column = self.find_column_index(self.tableTasks, 'id')
+		print("ID COLUMN")
+		print(id_column)
+		self.tableTasks.setColumnHidden(id_column, True)
+
 	def create_task_table(self, table):
+		print('create task table function called and populating task table')
 		table.verticalHeader().setVisible(False)
 		table.removeRow(0)
 		table.setShowGrid(False)
@@ -55,6 +67,7 @@ class TableManager:
 		table.setColumnHidden(id_column, True)
 
 	def create_project_table(self, table):
+		print('create project table function called and populating project table')
 		table.removeRow(0)
 		table.setShowGrid(False)
 		table.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -92,14 +105,27 @@ class TableManager:
 		table.setColumnHidden(id_column, True)
 
 	def on_row_clicked(self, row, table_widget, id_field):
+		# Find the column index for the given id_field
 		column_index = self.find_column_index(table_widget, id_field)
 		if column_index == -1:
-			print("Column 'id' not found.")
+			print(f"Column '{id_field}' not found.")
 			return
-		project_id_item = table_widget.item(row, column_index)
-		if project_id_item:
-			project_id = project_id_item.data(Qt.DisplayRole)
-			self.selected_project = project_id
+
+		# Retrieve the item from the specified column in the clicked row
+		item = table_widget.item(row, column_index)
+		if not item:
+			return
+
+		# Update selected project or task based on the table
+		item_id = item.data(Qt.DisplayRole)
+		if table_widget == self.tableTaskProjects:
+			self.selected_project = int(item_id)
+			self.selected_task = None
+		elif table_widget == self.tableTasks:
+			self.selected_task = int(item_id)
+
+		# Perform additional actions after row click
+		self.get_system_path()
 
 	def sort_table_by_column(self, table, column_index, descending=False):
 		table.sortItems(column_index, Qt.DescendingOrder if descending else Qt.AscendingOrder)
@@ -127,7 +153,8 @@ class TableManager:
 		return None
 
 	def filter_table(self, table):
-		self.selected_project = self.get_selected_item_id(table, 'project.Project.id')
+		print('filter table function called and populated table')
+		self.selected_project = int(self.get_selected_item_id(table, 'project.Project.id'))
 		if self.selected_project is not None:
 			self.tableTasks.clearContents()
 			self.tableTasks.setRowCount(0)
@@ -136,3 +163,47 @@ class TableManager:
 				self.user_tasks, self.selected_project, self.task_field_dict, 'id',
 				filter='Project', table_type='Task'
 			)
+
+	def update_system_path(self):
+		print("SYSTEM PATH")
+		print(f"Selected Project: {self.selected_project}")
+		print(f"Selected Task: {self.selected_task}")
+
+		task_info = {
+			'project_id': self.selected_project,
+			'project_folder': None,
+			'shot_name': None,
+			'shot_id': None,
+			'task_name': None,
+			'pipeline_step': None,
+			'sequence': None,
+			'episode': None
+		}
+
+		for task in self.user_tasks:
+			# Get project info from the selected project id
+			if task.get('project.Project.id') == self.selected_project:
+				task_info['project_folder'] = task.get('project.Project.sg_project_folder')
+
+			# Get task info from selected task id (if selected)
+			if task.get('id') == self.selected_task:
+				task_info.update({
+					'shot_name': task.get('entity.Shot.code'),
+					'shot_id': task.get('entity.Shot.id'),
+					'task_name': task.get('content'),
+					'pipeline_step': task.get('step'),
+					'sequence': task.get('entity.Shot.sg_sequence.name'),
+					'episode': task.get('entity.Shot.sg_sequence.Sequence.episode.name')
+				})
+				break  # Exit loop once the task is found
+
+		# Print the task information dictionary
+		for key, value in task_info.items():
+			print(f"{key.replace('_', ' ').title()}: {value}")
+
+		system_path = 'Test'
+
+		return task_info, system_path
+
+
+
