@@ -1,6 +1,6 @@
 import json
 import sys
-
+import os
 from PySide2 import QtCore
 
 from auto_load_ui import autoloadUi  # Import the autoloadUi function
@@ -51,6 +51,7 @@ class FlowLaunch(QWidget):
         self.user_tasks = None
         self.task_field_dict = {}
         self.display_field_list = None
+        self.task_info = None
 
         self.selected_project = None
         self.prev_selected_display_fields = None
@@ -180,7 +181,11 @@ class FlowLaunch(QWidget):
         # Setup foldersTaskStatusFilter
         self.setupFilterComboBox("Folder Task Status", self.foldersTaskStatusFilter, data["settingFolderTaskStatuses"])
 
+        self.buttonTasksFolder.clicked.connect(self.build_path)
+
         self.buttonFlowSite.clicked.connect(self.openUrlWithHttps)
+
+        self.buttonRefresh.clicked.connect(self.refresh_task_view)
 
         self.build_sg_task_field_controllers()
 
@@ -190,15 +195,23 @@ class FlowLaunch(QWidget):
         self.convert_display_names_to_field_names()
         self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.all_mapped_fields)
 
-        # TODO: need to figure out way so that when you select columns to display those columns are updated in the table tasks table and table tasks is refreshed
-        # reloading the project selected
-        self.table_manager = table_controller.TableManager(self.tableTasks, self.tableTaskProjects, self.user_tasks, self.task_field_dict, self.backend_field_list, self.display_field_list)
+        self.table_manager = table_controller.TableManager(self.tableTasks, self.user_name, self.tableTaskProjects, self.user_tasks, self.task_field_dict, self.backend_field_list, self.display_field_list)
         self.table_manager.table_creator()
+
+    def refresh_task_view(self):
+        self.convert_display_names_to_field_names()
+        self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.backend_field_list)
+        self.table_manager.refresh_data(self.user_tasks, self.task_field_dict, self.backend_field_list, self.display_field_list)
 
     # # Go through mapping of fields to build proper field names based on field and entity relationships
     def convert_display_names_to_field_names(self):
         self.task_field_dict = {}
         self.backend_field_list = []
+
+        print("FIXING DATA STRUCTURE")
+        print(self.display_field_list)
+        print(self.entity_map.get('Shot'))
+        #TODO: get field names to display in the qcombobox as we can probably make this function a lot simpler as it is duplicating work done in util flow which is mapping the fields already
 
         for display_name in self.display_field_list:
             entity, display_field = display_name.split('.')
@@ -223,7 +236,6 @@ class FlowLaunch(QWidget):
 
                 else:
                     field_name = 'entity.' + str(entity) + '.' + str(field_name)
-
 
 
             # key = (entity, field_name, display_field)  # Create a tuple key
@@ -267,6 +279,8 @@ class FlowLaunch(QWidget):
 
     def save_display_fields(self):
         self.update_display_fields()
+        self.convert_display_names_to_field_names()
+        self.table_manager.update_task_table(self.task_field_dict, self.backend_field_list, self.display_field_list)
         self.update_json("settingDisplayFields", self.display_field_list, button=None, default_variable=None)
 
     def update_display_fields(self):
@@ -277,9 +291,6 @@ class FlowLaunch(QWidget):
             item = self.fieldList.item(index)
             # Append the text of the item to my_list
             self.display_field_list.append(item.text())
-
-        self.convert_display_names_to_field_names()
-        self.table_manager.update_task_table(self.task_field_dict, self.backend_field_list, self.display_field_list)
 
     def build_sg_task_field_controllers(self):
         print("Building SG task fields")
@@ -485,6 +496,36 @@ class FlowLaunch(QWidget):
             button.setEnabled(False)
 
         default_variable = value
+
+    # TODO: call this on button press
+    def build_path(self):
+        self.task_info = self.table_manager.get_selected_info()
+        print("BUILDING PATH")
+        print(self.task_info)
+
+        # Set default jobs_path based on the platform
+        if sys.platform == 'darwin':
+            print("This is macOS")
+            jobs_path = self.settingMacServerPath.text()
+        elif sys.platform == 'win32':
+            print("This is Windows")
+            jobs_path = self.settingPCServerPath.text()
+        else:
+            # Handle other platforms or raise an error if necessary
+            print("Unsupported platform:", sys.platform)
+            return  # Exit the function if the platform is not macOS or Windows
+
+        # Construct the base path
+        if self.task_info['project_folder']:
+            jobs_path = os.path.join(jobs_path, self.task_info['project_folder'])
+
+        # Construct the complete path based on task_info
+        if self.task_info['episode'] and self.task_info['shot_name'] and self.task_info['pipeline_step']:
+            jobs_path = os.path.join(jobs_path, self.task_info['episode'], self.task_info['shot_name'],
+                                     self.task_info['pipeline_step'])
+
+        print(self.task_field_dict)
+        print("PATH IS:", jobs_path)
 
 
 if __name__ == "__main__":

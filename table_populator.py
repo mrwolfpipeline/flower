@@ -10,8 +10,7 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
     fields_list.append(id_field)
 
     # TABLE CLEAR
-    while table.rowCount() > 0:
-        table.removeRow(0)
+    table.setRowCount(0)
     table.setColumnCount(len(header_labels))
     table.setHorizontalHeaderLabels(header_labels)
 
@@ -139,3 +138,4 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
                 col += 1
             col = 0
             row += 1
+

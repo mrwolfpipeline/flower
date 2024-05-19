@@ -27,7 +27,6 @@
         "Nuke14",
         "Nuke15"
     ],
-    "settingMacServerPath": "Sample Path",
     "settingPythonLibraries": "TEST PYTHON LIBRARIES PYTHON",
     "settingNukeFolder": "NUKE FOLDER SETTING NUKE FOLDER SETTING",
     "settingNukeInit": "NUKE INIT TEMPLATE NUKE INIT TEMPLATE",
@@ -47,6 +46,9 @@
     "settingBlenderVersions": "Blender version",
     "settingHoudiniVersions": "Houdini Version",
     "settingSyntheyesVersions": "Syntheyes Version",
+    "settingFlowURL": "https://mrwolf.shotgunstudio.com",
+    "settingPCServerPath": "Z:\\JOBS",
+    "settingMacServerPath": "MAC PATH",
     "settingDisplayFields": [
         "Shot.Thumbnail",
         "Shot.ShotKeyID",
@@ -56,7 +58,5 @@
         "Task.Due Date",
         "Shot.Sequence",
         "Task.Last Opened in Launcher"
-    ],
-    "settingFlowURL": "https://mrwolf.shotgunstudio.com",
-    "settingPCServerPath": "Z:\\JOBS"
+    ]
 }

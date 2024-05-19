@@ -195,7 +195,7 @@ QTabBar {
             <number>10</number>
            </property>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="buttonRefresh">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -387,7 +387,7 @@ QTabBar {
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="iconSize">
         <size>
@@ -509,6 +509,9 @@ QTabBar {
                <iconset>
                 <selectedon>ui/images/folder_icon.png</selectedon>
                </iconset>
+              </property>
+              <property name="default">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -1187,7 +1190,7 @@ QTabBar {
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-701</y>
+            <y>-93</y>
             <width>912</width>
             <height>1708</height>
            </rect>

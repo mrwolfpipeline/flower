@@ -80,6 +80,18 @@ def get_user_tasks(user, add_fields=None):
 
     return tasks
 
+def get_pipeline_step_data():
+    sg = FL.sg
+    entity_type = "Step"
+    field_names = ["short_name", "code"]  # Assuming you want to retrieve the "short_name" and "code" fields
+
+    # Query Shotgun for all Step records
+    steps = sg.find(entity_type, [], field_names)
+
+    print(steps)
+
+    return steps
+
 def extract_names_from_tasks(data):
     if isinstance(data, list):
         return [extract_names_from_tasks(item) for item in data]
@@ -243,5 +255,7 @@ if __name__ == "__main__":
     for task in tasks:
         if task['project.Project.name'] == '[COY] Coyote - Season 0':
             print(task)
+
+    get_pipeline_step_data()
     # print(tasks)
 

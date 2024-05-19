@@ -6,12 +6,13 @@ import util_flow
 import flow_launch
 import table_populator
 
-#TODO: better method for filtering statuses of tasks
+#TODO: need a method for filtering statuses of tasks
 #TODO: method for filtering task types / pipeline steps
 #TODO: method for fileting episodes
+#TODO: need to be able to display episode field
 
-class TableManager:
-	def __init__(self, table_tasks, table_task_projects, user_tasks, task_field_dict, backend_field_dict, display_field_list):
+class TableManager(flow_launch.FlowLaunch):
+	def __init__(self, table_tasks, user, table_task_projects, user_tasks, task_field_dict, backend_field_dict, display_field_list):
 		self.tableTasks = table_tasks
 		self.tableTaskProjects = table_task_projects
 		self.display_field_list = display_field_list
@@ -20,6 +21,18 @@ class TableManager:
 		self.user_tasks = user_tasks
 		self.task_field_dict = task_field_dict
 		self.backend_field_list = backend_field_dict
+		self.task_info = None
+		self.user_name = user
+
+		# ESTABLISH DEFAULT PROJECT COLUMNS AND DATA FIELDS
+		self.project_id_field = 'project.Project.id'
+		self.project_field_list = ['project.Project.image', 'project.Project.name', 'project.Project.id']
+		self.project_field_dict = {
+			'project.Project.image': {'data_type': 'image', 'entity_type': 'Project', 'display_name': 'Thumbnail', 'field_name': 'image', 'valid_types': None},
+			'project.Project.name': {'data_type': 'text', 'entity_type': 'Project', 'display_name': 'Project Name', 'field_name': 'name', 'valid_types': None},
+			'project.Project.id': {'data_type': 'number', 'entity_type': 'Project', 'display_name': 'Project ID', 'field_name': 'id', 'valid_types': None}
+		}
+		self.project_display_fields = ['Image', "Project Name"]
 
 	def on_header_clicked(self, logicalIndex):
 		table = self.sender().parentWidget()
@@ -35,14 +48,36 @@ class TableManager:
 		self.task_field_dict = task_field_dict
 		self.backend_field_list = backend_field_list
 		self.display_field_list = display_field_list
+		print("UPDATING USER TASKS")
+		self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.backend_field_list)
+		print("DONE UPDATING USER TASKS")
 		table_populator.populate_table(self.tableTasks, self.backend_field_list, self.display_field_list,
 		                               self.user_tasks, self.selected_project, self.task_field_dict, 'id', filter=None,
 		                               table_type='Task')
 
 		id_column = self.find_column_index(self.tableTasks, 'id')
-		print("ID COLUMN")
-		print(id_column)
 		self.tableTasks.setColumnHidden(id_column, True)
+		
+	def refresh_data(self, user_tasks, task_field_dict, backend_field_list, display_field_list):
+		project_id_columb = self.find_column_index(self.tableTaskProjects, 'project.Project.id')
+		self.tableTaskProjects.setColumnHidden(project_id_columb, False)
+		
+		self.task_field_dict = task_field_dict
+		self.backend_field_list = backend_field_list
+		self.display_field_list = display_field_list
+		self.user_tasks = user_tasks
+
+		# clear task table
+		self.tableTasks.setRowCount(0)
+
+		# populate project table
+		table_populator.populate_table(
+			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
+			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
+		)
+
+		# sort project table
+		self.sort_table_by_column(self.tableTaskProjects, 1)
 
 	def create_task_table(self, table):
 		print('create task table function called and populating task table')
@@ -67,7 +102,6 @@ class TableManager:
 		table.setColumnHidden(id_column, True)
 
 	def create_project_table(self, table):
-		print('create project table function called and populating project table')
 		table.removeRow(0)
 		table.setShowGrid(False)
 		table.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -76,29 +110,18 @@ class TableManager:
 		table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
 		table.verticalHeader().setDefaultSectionSize(80)
 		table.setStyleSheet("""
-            QTableWidget::item { padding: 5px; }
-            QTableWidget::item:selected { padding: 5px; }
-        """)
-
-		id_field = 'project.Project.id'
-		fields_list = ['project.Project.image', 'project.Project.name', 'project.Project.id']
-		project_field_dict = {
-			'project.Project.image': {'data_type': 'image', 'entity_type': 'Project', 'display_name': 'Thumbnail',
-			                          'field_name': 'image', 'valid_types': None},
-			'project.Project.name': {'data_type': 'text', 'entity_type': 'Project', 'display_name': 'Project Name',
-			                         'field_name': 'name', 'valid_types': None},
-			'project.Project.id': {'data_type': 'number', 'entity_type': 'Project', 'display_name': 'Project ID',
-			                       'field_name': 'id', 'valid_types': None}
-		}
-		display_fields_list = ['Image', "Project Name"]
+		QTableWidget::item { padding: 5px; }
+		QTableWidget::item:selected { padding: 5px; }
+		""")
 
 		table_populator.populate_table(
-			self.tableTaskProjects, fields_list, display_fields_list, self.user_tasks,
-			self.selected_project, project_field_dict, id_field, filter=None, table_type='Project'
+			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
+			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
 		)
 
 		table.cellClicked.connect(lambda row, col: self.on_row_clicked(row, table, 'project.Project.id'))
 		table.cellClicked.connect(lambda row, col: self.filter_table(table))
+
 		self.sort_table_by_column(table, 1)
 
 		id_column = self.find_column_index(table, 'project.Project.id')
@@ -125,7 +148,8 @@ class TableManager:
 			self.selected_task = int(item_id)
 
 		# Perform additional actions after row click
-		self.get_system_path()
+		# TODO: CAN BE DELETED
+		self.get_selected_info()
 
 	def sort_table_by_column(self, table, column_index, descending=False):
 		table.sortItems(column_index, Qt.DescendingOrder if descending else Qt.AscendingOrder)
@@ -164,12 +188,11 @@ class TableManager:
 				filter='Project', table_type='Task'
 			)
 
-	def update_system_path(self):
-		print("SYSTEM PATH")
+	def get_selected_info(self):
 		print(f"Selected Project: {self.selected_project}")
 		print(f"Selected Task: {self.selected_task}")
 
-		task_info = {
+		self.task_info = {
 			'project_id': self.selected_project,
 			'project_folder': None,
 			'shot_name': None,
@@ -183,11 +206,11 @@ class TableManager:
 		for task in self.user_tasks:
 			# Get project info from the selected project id
 			if task.get('project.Project.id') == self.selected_project:
-				task_info['project_folder'] = task.get('project.Project.sg_project_folder')
+				self.task_info['project_folder'] = task.get('project.Project.sg_project_folder')
 
 			# Get task info from selected task id (if selected)
 			if task.get('id') == self.selected_task:
-				task_info.update({
+				self.task_info.update({
 					'shot_name': task.get('entity.Shot.code'),
 					'shot_id': task.get('entity.Shot.id'),
 					'task_name': task.get('content'),
@@ -198,12 +221,12 @@ class TableManager:
 				break  # Exit loop once the task is found
 
 		# Print the task information dictionary
-		for key, value in task_info.items():
+		for key, value in self.task_info.items():
 			print(f"{key.replace('_', ' ').title()}: {value}")
 
-		system_path = 'Test'
+		return self.task_info
 
-		return task_info, system_path
+		# return task_info, system_path
 
 
 
