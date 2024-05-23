@@ -83,6 +83,7 @@ class FlowLaunch(QWidget):
         self.buttonDefaultApplication.setEnabled(False)
         self.buttonDefaultTab.setEnabled(False)
 
+
         # Load settings from json file
         with open(settings_json, 'r') as file:
             data = json.load(file)
@@ -106,6 +107,7 @@ class FlowLaunch(QWidget):
                     line_edit.setText(setting_value)
                     line_edit.setReadOnly(True)
                     line_edit.setStyleSheet("QLineEdit[readOnly=\"true\"] { background-color: #f0f0f0; }")
+
 
         # # Setup radio button functionality for the button group
         self.setup_radio_button_group(self.launch_button_group, self.launch_button_list, setting=None,
@@ -183,6 +185,9 @@ class FlowLaunch(QWidget):
 
         self.buttonTasksFolder.clicked.connect(self.build_path)
 
+        self.tableTasks.clicked.connect(self.build_path)
+        self.tableProjects.clicked.connect(self.build_path)
+
         self.buttonFlowSite.clicked.connect(self.openUrlWithHttps)
 
         self.buttonRefresh.clicked.connect(self.refresh_task_view)
@@ -195,7 +200,7 @@ class FlowLaunch(QWidget):
         self.convert_display_names_to_field_names()
         self.user_tasks = util_flow.get_user_tasks_custom(self.user_name, self.all_mapped_fields)
 
-        self.table_manager = table_controller.TableManager(self.tableTasks, self.user_name, self.tableTaskProjects, self.user_tasks, self.task_field_dict, self.backend_field_list, self.display_field_list)
+        self.table_manager = table_controller.TableManager(self.tableProjects, self.tableTasks, self.user_name, self.user_tasks, self.task_field_dict, self.backend_field_list, self.display_field_list)
         self.table_manager.table_creator()
 
     def refresh_task_view(self):
@@ -497,7 +502,7 @@ class FlowLaunch(QWidget):
 
         default_variable = value
 
-    # TODO: call this on button press
+    # TODO: call this on button press might want this to be in the table controller file not sure
     def build_path(self):
         self.task_info = self.table_manager.get_selected_info()
         print("BUILDING PATH")
@@ -526,6 +531,8 @@ class FlowLaunch(QWidget):
 
         print(self.task_field_dict)
         print("PATH IS:", jobs_path)
+
+        self.pathLabel.setText(str(jobs_path))
 
 
 if __name__ == "__main__":

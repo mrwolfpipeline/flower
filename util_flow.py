@@ -100,6 +100,9 @@ def extract_names_from_tasks(data):
         for key, value in data.items():
             if isinstance(value, dict) and 'name' in value:
                 new_data[key] = value['name']
+            if isinstance(value, dict) and 'type' in value:
+                key = str(key) + '.type'
+                new_data[key] = value['type']
             else:
                 new_data[key] = extract_names_from_tasks(value)
         return new_data

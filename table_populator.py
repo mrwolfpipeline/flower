@@ -1,9 +1,11 @@
+import os
 import requests
 from datetime import datetime
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+#TODO: dynamically store image paths based on settings. so settings sets the image saving directory
 def hide_id_column(table, column_name):
     header = table.horizontalHeader()
     for logical_index in range(header.count()):
@@ -12,6 +14,50 @@ def hide_id_column(table, column_name):
             column_id = visual_index
 
     table.setColumnHidden(column_id, True)
+
+def download_image(url, task_id, save_dir='images'):
+    """
+    Download an image from the given URL and save it locally.
+
+    Args:
+        url (str): The URL of the image to download.
+        task_id (str): The unique identifier for the task, used to name the image file.
+        save_dir (str): The directory where the image will be saved. Default is 'images'.
+
+    Returns:
+        str: The file path of the downloaded image if successful, else None.
+    """
+    # Create the save directory if it doesn't exist
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    # Extract the file extension from the URL
+    file_extension = 'jpg'
+
+    # Construct the file name for the image
+    image_filename = f"{task_id}.{file_extension}"
+
+    # Check if the image already exists locally
+    local_image_path = os.path.join(save_dir, image_filename)
+    if os.path.exists(local_image_path):
+        # print(f"Image already exists locally: {local_image_path}")
+        return local_image_path
+
+    try:
+        # Make a request to download the image
+        response = requests.get(url)
+        if response.status_code == 200:
+            # Save the image locally
+            with open(local_image_path, 'wb') as f:
+                f.write(response.content)
+            # print(f"Image downloaded successfully: {local_image_path}")
+            return local_image_path
+        else:
+            print(f"Failed to download image from URL: {url}")
+            return None
+    except Exception as e:
+        print(f"Error downloading image: {e}")
+        return None
 
 def populate_table(table, fields_list, display_field_list, user_tasks, selected_project, ref_field_dict, id_field, filter=None, table_type=None):
     header_labels = [field.split('.')[-1] for field in display_field_list]
@@ -64,20 +110,16 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
                         # Default shot image path goes here
                         image = 'ui/images/missing_image.png'
                         # Load default application image
-                        image_pixmap = QPixmap(image)
+                        image_path = image
 
                     else:
-                        response = requests.get(task_field)
-                        image_data = response.content
-                        # Create a QPixmap from the image data
-                        image_pixmap = QPixmap()
-                        image_pixmap.loadFromData(image_data)
+                        image_path = download_image(task_field, task[id_field])
+
+                    # Load the image as QPixmap
+                    image_pixmap = QPixmap(image_path)
 
                     # Scale the pixmap to fit within 80x80 while preserving aspect ratio
-                    if table_type == 'Task':
-                        scaled_pixmap = image_pixmap.scaled(QSize(60, 36))
-                    else:
-                        scaled_pixmap = image_pixmap.scaled(QSize(60, 36))
+                    scaled_pixmap = image_pixmap.scaled(QSize(60, 36))
 
                     # Create a QLabel to display the icon
                     task_table_item = QLabel()
@@ -89,6 +131,13 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
                 # HANDLE TEXT
                 elif field_type == 'text' or field_type == 'entity' or field_type == 'str':
                     # Create a QTableWidgetItem
+                    # print(field == 'entity.Shot.code')
+                    if field == 'entity.Shot.code':
+                        if task['entity.type'] == 'Shot':
+                            pass
+                        elif task['entity.type'] == 'Asset':
+                            task_field = task['entity']
+
                     task_table_item = QTableWidgetItem(task_field)
                     table.setItem(row, col, task_table_item)
 
@@ -149,4 +198,46 @@ def populate_table(table, fields_list, display_field_list, user_tasks, selected_
             row += 1
 
     hide_id_column(table, id_field)
+    # Find the index of the column with the header 'Shot Key ID'
+    if table_type == 'Task':
+        resize_columns(table)
 
+
+def resize_columns(table_widget):
+    table_widget.setShowGrid(True)
+    ignore_column_name = 'Thumbnail'
+    # Create a QFontMetrics object to measure text width
+    font_metrics = QFontMetrics(table_widget.font())
+
+    # Iterate through each column
+    for col in range(table_widget.columnCount()):
+        # Check if the current column should be ignored
+        header_item = table_widget.horizontalHeaderItem(col)
+        if header_item is not None and header_item.text() == ignore_column_name:
+            continue
+
+        # Initialize the maximum width to zero
+        max_width = 0
+
+        # Measure the header item text width
+        if header_item is not None:
+            header_text = header_item.text()
+            header_text_width = font_metrics.width(header_text)
+            max_width = max(max_width, header_text_width)
+
+        # Iterate through each row to find the maximum width of items in the column
+        for row in range(table_widget.rowCount()):
+            item = table_widget.item(row, col)
+            if item is not None:
+                text = item.text()
+                item.setTextAlignment(Qt.AlignCenter)
+                text_width = font_metrics.width(text)
+                if text_width > max_width:
+                    max_width = text_width
+
+        # Add some padding to the maximum width
+        padding = 20
+        max_width += padding
+
+        # Set the column width to the maximum width found
+        table_widget.setColumnWidth(col, max_width)

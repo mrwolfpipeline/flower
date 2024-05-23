@@ -421,7 +421,7 @@ QTabBar {
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0">
            <property name="spacing">
             <number>6</number>
            </property>
@@ -429,7 +429,7 @@ QTabBar {
             <enum>QLayout::SetDefaultConstraint</enum>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <item>
             <layout class="QHBoxLayout" name="tabTopRow">
@@ -588,7 +588,7 @@ QTabBar {
                 </widget>
                </item>
                <item>
-                <widget class="QTableWidget" name="tableTaskProjects">
+                <widget class="QTableWidget" name="tableProjects">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>1</horstretch>
@@ -714,6 +714,18 @@ QTabBar {
               </layout>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="pathLabel">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

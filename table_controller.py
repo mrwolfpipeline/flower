@@ -3,6 +3,8 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 import util_flow
+import sys
+import os
 import flow_launch
 import table_populator
 
@@ -12,9 +14,9 @@ import table_populator
 #TODO: need to be able to display episode field
 
 class TableManager():
-	def __init__(self, table_tasks, user, table_task_projects, user_tasks, task_field_dict, backend_field_dict, display_field_list):
+	def __init__(self, table_projects, table_tasks, user, user_tasks, task_field_dict, backend_field_dict, display_field_list):
 		self.tableTasks = table_tasks
-		self.tableTaskProjects = table_task_projects
+		self.tableProjects = table_projects
 		self.display_field_list = display_field_list
 		self.selected_project = None
 		self.selected_task = None
@@ -38,7 +40,7 @@ class TableManager():
 		self.sort_column(table, logicalIndex)
 
 	def table_creator(self):
-		self.create_project_table(self.tableTaskProjects)
+		self.create_project_table(self.tableProjects)
 		self.create_task_table(self.tableTasks)
 
 	def update_task_table(self, task_field_dict, backend_field_list, display_field_list):
@@ -58,8 +60,8 @@ class TableManager():
 		# self.tableTasks.setColumnHidden(id_column, True)
 		
 	def refresh_data(self, user_tasks, task_field_dict, backend_field_list, display_field_list):
-		project_id_columb = self.find_column_index(self.tableTaskProjects, 'project.Project.id')
-		self.tableTaskProjects.setColumnHidden(project_id_columb, False)
+		project_id_columb = self.find_column_index(self.tableProjects, 'project.Project.id')
+		self.tableProjects.setColumnHidden(project_id_columb, False)
 		
 		self.task_field_dict = task_field_dict
 		self.backend_field_list = backend_field_list
@@ -71,12 +73,12 @@ class TableManager():
 
 		# populate project table
 		table_populator.populate_table(
-			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
+			self.tableProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
 			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
 		)
 
 		# sort project table
-		self.sort_table_by_column(self.tableTaskProjects, 1)
+		self.sort_table_by_column(self.tableProjects, 1)
 
 	def create_task_table(self, table):
 		print('creating task table')
@@ -107,7 +109,7 @@ class TableManager():
 		# table.removeRow(0)
 
 		table_populator.populate_table(
-			self.tableTaskProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
+			self.tableProjects, self.project_field_list, self.project_display_fields, self.user_tasks,
 			self.selected_project, self.project_field_dict, self.project_id_field, filter=None, table_type='Project'
 		)
 
@@ -144,7 +146,7 @@ class TableManager():
 
 		# Update selected project or task based on the table
 		item_id = item.data(Qt.DisplayRole)
-		if table_widget == self.tableTaskProjects:
+		if table_widget == self.tableProjects:
 			self.selected_project = int(item_id)
 			self.selected_task = None
 		elif table_widget == self.tableTasks:
@@ -191,6 +193,9 @@ class TableManager():
 				filter='Project', table_type='Task'
 			)
 
+	#TODO: I WANT PATHS TO UPDATE AND BE VISIBLE WHEN CHANGING PROJECTS. MAYBE I NEED TO PASS ALL SETTINGS INTO THIS CLASS
+	#TODO: OR I NEED TO PASS DATA TO THE UI CLASS WHEN VALUES ARE UPDATED WHICH WOULD BE PREFERRED
+	#TODO: TRY THIS FIRST. TRY CREATING THE TABLE OBJECTS IN THE UI CLASS AND THEN ADD LISTENERS THERE?
 	def get_selected_info(self):
 		print(f"Selected Project: {self.selected_project}")
 		print(f"Selected Task: {self.selected_task}")
@@ -215,6 +220,7 @@ class TableManager():
 			if task.get('id') == self.selected_task:
 				self.task_info.update({
 					'shot_name': task.get('entity.Shot.code'),
+					'asset_name': task.get('entity'),
 					'shot_id': task.get('entity.Shot.id'),
 					'task_name': task.get('content'),
 					'pipeline_step': task.get('step'),
@@ -222,10 +228,6 @@ class TableManager():
 					'episode': task.get('entity.Shot.sg_sequence.Sequence.episode.name')
 				})
 				break  # Exit loop once the task is found
-
-		# Print the task information dictionary
-		for key, value in self.task_info.items():
-			print(f"{key.replace('_', ' ').title()}: {value}")
 
 		return self.task_info
 
